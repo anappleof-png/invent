@@ -100,35 +100,48 @@
 
     <!-- MAIN CONTENT AREA -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full" id="projectGridSection">
-        <!-- Category & Search Bar -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-            <!-- Categories -->
-            <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none" id="categoryFilters">
-                <button onclick="filterCategory('ALL')" class="cat-btn active border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-emerald-500 text-white border-emerald-500 shadow-sm">
-                    전체 보기
+        <!-- Author View Filter & Search Bar -->
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-6 bg-white p-4 rounded-3xl border border-slate-200/80 shadow-sm">
+            <!-- Author View Tabs -->
+            <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-2xl self-start md:self-auto">
+                <button onclick="filterAuthor('ALL')" id="authorBtnAll" class="author-btn active px-4 py-2 rounded-xl text-xs font-jua transition-all bg-white text-emerald-700 shadow-sm">
+                    🌐 전체 발명품 (모두)
                 </button>
-                <button onclick="filterCategory('환경/지구')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
-                    🌍 환경/지구
+                <button onclick="filterAuthor('MINE')" id="authorBtnMine" class="author-btn px-4 py-2 rounded-xl text-xs font-jua transition-all text-slate-600 hover:text-slate-900">
+                    🙋 내가 올린 글
                 </button>
-                <button onclick="filterCategory('학교생활')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
-                    🏫 학교생활
-                </button>
-                <button onclick="filterCategory('편리도구')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
-                    💡 편리도구
-                </button>
-                <button onclick="filterCategory('로봇/IT')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
-                    🤖 로봇/IT
-                </button>
-                <button onclick="filterCategory('재미/장난감')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
-                    🎨 재미/장난감
+                <button onclick="filterAuthor('OTHERS')" id="authorBtnOthers" class="author-btn px-4 py-2 rounded-xl text-xs font-jua transition-all text-slate-600 hover:text-slate-900">
+                    👥 다른 친구 글
                 </button>
             </div>
 
             <!-- Search Bar -->
             <div class="relative w-full md:w-64">
-                <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="발명품 검색..." class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all shadow-sm">
+                <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="발명품 또는 작성자 검색..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all">
                 <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
             </div>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-8 scrollbar-none" id="categoryFilters">
+            <button onclick="filterCategory('ALL')" class="cat-btn active border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-emerald-500 text-white border-emerald-500 shadow-sm">
+                전체 카테고리
+            </button>
+            <button onclick="filterCategory('환경/지구')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
+                🌍 환경/지구
+            </button>
+            <button onclick="filterCategory('학교생활')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
+                🏫 학교생활
+            </button>
+            <button onclick="filterCategory('편리도구')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
+                💡 편리도구
+            </button>
+            <button onclick="filterCategory('로봇/IT')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
+                🤖 로봇/IT
+            </button>
+            <button onclick="filterCategory('재미/장난감')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
+                🎨 재미/장난감
+            </button>
         </div>
 
         <!-- Invention Grid -->
@@ -152,6 +165,8 @@
         </div>
     </footer>
 
+    <!-- MODALS -->
+    
     <!-- 1. USER ENTRANCE MODAL -->
     <div id="userModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
         <div class="bg-white w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 text-center space-y-6">
@@ -218,7 +233,7 @@
                         <div id="imagePreviewContainer" class="space-y-2">
                             <i class="fa-solid fa-cloud-arrow-up text-3xl text-emerald-500"></i>
                             <p class="text-xs text-slate-600 font-bold">클릭하여 사진 파일(JPG, PNG)을 업로드하세요</p>
-                            <p class="text-[10px] text-slate-400">스마트폰 사진 촬영 파일도 가능합니다.</p>
+                            <p class="text-[10px] text-slate-400">스마트폰 사진도 자동 최적화되어 빠르게 등록됩니다.</p>
                         </div>
                         <img id="imagePreview" class="hidden max-h-48 rounded-xl mx-auto shadow-md object-cover">
                     </div>
@@ -247,8 +262,8 @@
                     <button type="button" onclick="closeCreateModal()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-jua py-3.5 rounded-2xl transition-all">
                         취소
                     </button>
-                    <button type="submit" class="w-2/3 bg-emerald-500 hover:bg-emerald-600 text-white font-jua text-xl py-3.5 rounded-2xl shadow-lg shadow-emerald-200 transition-all">
-                        ✨ 발명품 등록하기
+                    <button type="submit" id="submitInventionBtn" class="w-2/3 bg-emerald-500 hover:bg-emerald-600 text-white font-jua text-xl py-3.5 rounded-2xl shadow-lg shadow-emerald-200 transition-all flex items-center justify-center gap-2">
+                        <span>✨ 발명품 등록하기</span>
                     </button>
                 </div>
             </form>
@@ -452,7 +467,7 @@
     <!-- REAL-TIME CLOUD DATA SYNC SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'kids-invent-class-app';
@@ -473,6 +488,7 @@
         let currentUser = null;
         let isAdminLoggedIn = false;
         let currentFilter = 'ALL';
+        let authorFilter = 'ALL';
         let searchQuery = '';
         let uploadedImageData = '';
         let currentDetailProject = null;
@@ -480,6 +496,24 @@
         let targetEditId = null;
         let projects = [];
         const ADMIN_PASSWORD = "0115";
+
+        const sampleProjects = [
+            {
+                id: 'sample_1',
+                title: '자동 분리수거 로봇 휴지통',
+                category: '로봇/IT',
+                description: '센서를 이용해 일반쓰레기와 플라스틱을 스스로 구분해서 버려주는 똑똑한 로봇 휴지통입니다. 재활용이 쉬워져요!',
+                goal: 50000,
+                raised: 12000,
+                author: '발명도사',
+                createdAt: '2023. 11. 01.',
+                timestamp: Date.now() - 100000,
+                imageUrl: 'https://placehold.co/600x400/0ea5e9/ffffff?text=Smart+Bin',
+                isSample: true,
+                isResultPublished: false,
+                reward: '감사 스티커 세트'
+            }
+        ];
 
         window.openCreateModal = openCreateModal;
         window.closeCreateModal = closeCreateModal;
@@ -489,61 +523,32 @@
         window.closeAdminDashboardModal = closeAdminDashboardModal;
         window.openRankingModal = openRankingModal;
         window.closeRankingModal = closeRankingModal;
+        window.openDetailModal = openDetailModal;
+        window.closeDetailModal = closeDetailModal;
+        window.openEditModal = openEditModal;
+        window.closeEditModal = closeEditModal;
+        window.openDeleteModal = openDeleteModal;
+        window.closeDeleteModal = closeDeleteModal;
         window.filterCategory = filterCategory;
+        window.filterAuthor = filterAuthor;
         window.handleSearch = handleSearch;
         window.scrollToGrid = scrollToGrid;
         window.verifyAdminPassword = verifyAdminPassword;
-        window.togglePublishResult = togglePublishResult;
-        window.setAllPublishResults = setAllPublishResults;
-        window.handleImagePreview = handleImagePreview;
-        window.handleInventionSubmit = handleInventionSubmit;
         window.handleUserSubmit = handleUserSubmit;
-        window.openDetailModal = openDetailModal;
-        window.closeDetailModal = closeDetailModal;
-        window.fundProject = fundProject;
-        window.renderProjects = renderProjects;
-        window.openEditModal = openEditModal;
-        window.closeEditModal = closeEditModal;
+        window.handleInventionSubmit = handleInventionSubmit;
+        window.handleImagePreview = handleImagePreview;
         window.handleEditSubmit = handleEditSubmit;
-        window.confirmDeleteProject = confirmDeleteProject;
-        window.closeDeleteModal = closeDeleteModal;
         window.executeDeleteProject = executeDeleteProject;
+        window.setAllPublishResults = setAllPublishResults;
+        window.togglePublishResult = togglePublishResult;
+        window.deleteProjectFromAdmin = deleteProjectFromAdmin;
+        window.fundProject = fundProject;
 
-        const sampleProjects = [
-            {
-                id: 'sample-1',
-                title: '자동 급수 식물 화분',
-                category: '환경/지구',
-                description: '화분의 흙이 마르면 자동으로 물을 주어 식물이 시들지 않게 돕는 스마트 화분입니다.',
-                goal: 30000,
-                raised: 30000,
-                author: '은여울',
-                createdAt: '2026. 02. 20.',
-                imageUrl: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&auto=format&fit=crop&q=80',
-                isSample: true,
-                isResultPublished: false,
-                reward: '감사 스티커 및 사용 설명서'
-            },
-            {
-                id: 'sample-2',
-                title: '우산 빗물 털이 로봇',
-                category: '편리도구',
-                description: '비 오는 날 건물 입구에서 우산의 빗물을 빠르게 털어주어 일회용 비닐 사용을 줄여줍니다.',
-                goal: 50000,
-                raised: 15000,
-                author: '은여울',
-                createdAt: '2026. 02. 21.',
-                imageUrl: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=600&auto=format&fit=crop&q=80',
-                isSample: true,
-                isResultPublished: false,
-                reward: '발명 제작 과정 기념 카드'
-            }
-        ];
-
-        function showToast(msg, icon = '✨') {
+        function showToast(msg, icon = '🎉') {
             const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = msg;
-            document.getElementById('toastIcon').innerText = icon;
+            document.getElementById('toastMsg').textContent = msg;
+            document.getElementById('toastIcon').textContent = icon;
+            
             toast.classList.remove('translate-y-20', 'opacity-0');
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
@@ -552,41 +557,6 @@
 
         function scrollToGrid() {
             document.getElementById('projectGridSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function handleUserSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('userInputName').value.trim();
-            if (!name) return;
-
-            currentUser = {
-                name: name,
-                points: 100000
-            };
-
-            document.getElementById('userNameDisplay').innerText = currentUser.name;
-            document.getElementById('userPointDisplay').innerText = currentUser.points.toLocaleString();
-            document.getElementById('userBadge').classList.remove('hidden');
-            document.getElementById('userBadge').classList.add('flex');
-
-            document.getElementById('userModal').classList.add('hidden');
-            showToast(`${currentUser.name}님 환영합니다! 100,000P 지급 완료! 🎉`);
-        }
-
-        function handleImagePreview(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                uploadedImageData = event.target.result;
-                const preview = document.getElementById('imagePreview');
-                const container = document.getElementById('imagePreviewContainer');
-                preview.src = uploadedImageData;
-                preview.classList.remove('hidden');
-                container.classList.add('hidden');
-            };
-            reader.readAsDataURL(file);
         }
 
         function openCreateModal() {
@@ -599,261 +569,155 @@
 
         function closeCreateModal() {
             document.getElementById('createModal').classList.add('hidden');
+            document.getElementById('inputTitle').value = '';
+            document.getElementById('inputDescription').value = '';
+            document.getElementById('imageFileInput').value = '';
+            uploadedImageData = '';
             document.getElementById('imagePreview').classList.add('hidden');
             document.getElementById('imagePreviewContainer').classList.remove('hidden');
-            uploadedImageData = '';
         }
 
         function openAdminAuthModal() {
-            document.getElementById('adminPasswordInput').value = '';
-            document.getElementById('adminAuthModal').classList.remove('hidden');
+            if (isAdminLoggedIn) {
+                openAdminDashboard();
+            } else {
+                document.getElementById('adminAuthModal').classList.remove('hidden');
+            }
         }
 
         function closeAdminAuthModal() {
             document.getElementById('adminAuthModal').classList.add('hidden');
-        }
-
-        function verifyAdminPassword(e) {
-            e.preventDefault();
-            const pwd = document.getElementById('adminPasswordInput').value;
-            if (pwd === ADMIN_PASSWORD) {
-                isAdminLoggedIn = true;
-                closeAdminAuthModal();
-                openAdminDashboard();
-                showToast('🔑 관리자 로그인 성공!', '✅');
-            } else {
-                showToast('❌ 비밀번호가 올바르지 않습니다.', '⚠️');
-            }
+            document.getElementById('adminPasswordInput').value = '';
         }
 
         function openAdminDashboard() {
-            renderAdminProjectList();
+            closeAdminAuthModal();
             document.getElementById('adminDashboardModal').classList.remove('hidden');
+            renderAdminProjectList();
         }
 
         function closeAdminDashboardModal() {
             document.getElementById('adminDashboardModal').classList.add('hidden');
         }
-
-        function confirmDeleteProject(id) {
-            targetDeleteId = id;
-            document.getElementById('deleteConfirmModal').classList.remove('hidden');
-        }
-
-        function closeDeleteModal() {
-            targetDeleteId = null;
-            document.getElementById('deleteConfirmModal').classList.add('hidden');
-        }
-
-        async function executeDeleteProject() {
-            if (!targetDeleteId) return;
-
-            const id = targetDeleteId;
-            closeDeleteModal();
-
-            if (currentDetailProject && currentDetailProject.id === id) {
-                closeDetailModal();
-            }
-
-            if (dbUser) {
-                const pRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', id);
-                await deleteDoc(pRef);
-            } else {
-                projects = projects.filter(p => p.id !== id);
-                renderProjects();
-                if (!document.getElementById('adminDashboardModal').classList.contains('hidden')) {
-                    renderAdminProjectList();
-                }
-            }
-
-            showToast('🗑️ 발명품이 삭제되었습니다.');
-        }
-
-        function openEditModal(id) {
-            const p = projects.find(item => item.id === id);
-            if (!p) return;
-
-            targetEditId = id;
-            document.getElementById('editTitle').value = p.title;
-            document.getElementById('editCategory').value = p.category;
-            document.getElementById('editDescription').value = p.description;
-            document.getElementById('editGoal').value = p.goal;
-            document.getElementById('editReward').value = p.reward || '';
-
-            document.getElementById('editModal').classList.remove('hidden');
-        }
-
-        function closeEditModal() {
-            targetEditId = null;
-            document.getElementById('editModal').classList.add('hidden');
-        }
-
-        async function handleEditSubmit(e) {
-            e.preventDefault();
-            if (!targetEditId) return;
-
-            const title = document.getElementById('editTitle').value.trim();
-            const category = document.getElementById('editCategory').value;
-            const description = document.getElementById('editDescription').value.trim();
-            const goal = parseInt(document.getElementById('editGoal').value);
-            const reward = document.getElementById('editReward').value.trim();
-
-            const updatedData = { title, category, description, goal, reward };
-
-            if (dbUser) {
-                const pRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', targetEditId);
-                await updateDoc(pRef, updatedData);
-            } else {
-                const p = projects.find(item => item.id === targetEditId);
-                if (p) {
-                    Object.assign(p, updatedData);
-                    renderProjects();
-                }
-            }
-
-            closeEditModal();
-            showToast('✏️ 발명품 정보가 수정되었습니다!');
-        }
-
+        
         function openRankingModal() {
-            renderRankingList();
             document.getElementById('rankingModal').classList.remove('hidden');
+            renderRankingList();
         }
 
         function closeRankingModal() {
             document.getElementById('rankingModal').classList.add('hidden');
         }
 
-        function renderRankingList() {
-            const container = document.getElementById('rankingList');
-            const publishedProjects = projects.filter(p => !p.isSample && p.isResultPublished);
-
-            if (publishedProjects.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-12 text-slate-400">
-                        <div class="text-4xl mb-2">🔒</div>
-                        <p class="font-jua text-lg text-slate-600">아직 공개된 펀딩 결과가 없습니다.</p>
-                        <p class="text-xs">관리자가 목표 달성 여부를 공개한 후 확인하실 수 있습니다.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            publishedProjects.sort((a, b) => b.raised - a.raised);
-
-            container.innerHTML = publishedProjects.map((p, idx) => {
-                let badge = `<span class="font-jua text-slate-500 w-6 text-center">${idx + 1}</span>`;
-                if (idx === 0) badge = `<span class="text-xl">🥇</span>`;
-                else if (idx === 1) badge = `<span class="text-xl">🥈</span>`;
-                else if (idx === 2) badge = `<span class="text-xl">🥉</span>`;
-
-                const percent = Math.min(100, Math.round((p.raised / p.goal) * 100));
-                const isSuccess = p.raised >= p.goal;
-
-                return `
-                    <div class="flex items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                        <div class="flex items-center gap-3">
-                            ${badge}
-                            <div>
-                                <h4 class="font-bold text-slate-800">${p.title}</h4>
-                                <p class="text-xs text-slate-500">작성자: ${p.author} • ${p.category}</p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="font-jua text-lg text-emerald-600">${p.raised.toLocaleString()} P</span>
-                            <div class="text-xs font-bold ${isSuccess ? 'text-emerald-600' : 'text-amber-600'}">
-                                ${percent}% 달성 (${isSuccess ? '성공 🎉' : '진행중'})
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+        function openDetailModal(id) {
+            currentDetailProject = projects.find(p => p.id === id);
+            if (!currentDetailProject) return;
+            renderDetailModal();
+            document.getElementById('detailModal').classList.remove('hidden');
         }
 
-        async function togglePublishResult(id) {
-            const p = projects.find(item => item.id === id);
-            if (!p) return;
-
-            const newState = !p.isResultPublished;
-            if (dbUser) {
-                const pRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', id);
-                await updateDoc(pRef, { isResultPublished: newState });
-            } else {
-                p.isResultPublished = newState;
-                renderProjects();
-                renderAdminProjectList();
-            }
-
-            showToast(newState ? '📢 펀딩 결과가 공개되었습니다!' : '🔒 펀딩 결과가 비공개 처리되었습니다.');
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+            currentDetailProject = null;
         }
 
-        async function setAllPublishResults(isPublish) {
-            const studentProjects = projects.filter(p => !p.isSample);
-            if (studentProjects.length === 0) return;
-
-            if (dbUser) {
-                for (const p of studentProjects) {
-                    const pRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', p.id);
-                    await updateDoc(pRef, { isResultPublished: isPublish });
-                }
-            } else {
-                studentProjects.forEach(p => p.isResultPublished = isPublish);
-                renderProjects();
-                renderAdminProjectList();
-            }
-
-            showToast(isPublish ? '📢 전체 결과가 일괄 공개되었습니다!' : '🔒 전체 결과가 일괄 비공개되었습니다.');
+        function openEditModal(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+            targetEditId = id;
+            document.getElementById('editTitle').value = project.title;
+            document.getElementById('editCategory').value = project.category;
+            document.getElementById('editDescription').value = project.description;
+            document.getElementById('editGoal').value = project.goal;
+            document.getElementById('editReward').value = project.reward;
+            
+            closeDetailModal();
+            document.getElementById('editModal').classList.remove('hidden');
         }
 
-        function renderAdminProjectList() {
-            const tbody = document.getElementById('adminProjectList');
-            const studentProjects = projects.filter(p => !p.isSample);
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+            targetEditId = null;
+        }
 
-            if (studentProjects.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="p-8 text-center text-slate-400 font-jua">
-                            등록된 학생 발명품이 아직 없습니다.
-                        </td>
-                    </tr>
-                `;
-                return;
+        function openDeleteModal(id) {
+            targetDeleteId = id;
+            closeDetailModal();
+            document.getElementById('deleteConfirmModal').classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteConfirmModal').classList.add('hidden');
+            targetDeleteId = null;
+        }
+
+        function handleUserSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('userInputName').value.trim();
+            if(!name) return;
+            
+            currentUser = { name: name, points: 100000 };
+            
+            document.getElementById('userModal').classList.add('hidden');
+            document.getElementById('userBadge').classList.remove('hidden');
+            document.getElementById('userBadge').classList.add('flex');
+            document.getElementById('userNameDisplay').textContent = currentUser.name;
+            updatePointDisplay();
+            
+            showToast(`${currentUser.name}님 환영합니다! 100,000P 지급 완료!`, '🌱');
+            renderProjects();
+        }
+
+        function updatePointDisplay() {
+            if(currentUser) {
+                document.getElementById('userPointDisplay').textContent = currentUser.points.toLocaleString();
             }
+        }
 
-            tbody.innerHTML = studentProjects.map(p => {
-                const percent = Math.min(100, Math.round((p.raised / p.goal) * 100));
-                const isSuccess = p.raised >= p.goal;
-                return `
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="p-3.5 font-bold text-slate-800">${p.title}</td>
-                        <td class="p-3.5 text-slate-600">${p.author}</td>
-                        <td class="p-3.5 font-semibold text-slate-700">${p.raised.toLocaleString()} / ${p.goal.toLocaleString()} P</td>
-                        <td class="p-3.5 font-bold ${isSuccess ? 'text-emerald-600' : 'text-amber-600'}">${percent}% (${isSuccess ? '성공' : '진행중'})</td>
-                        <td class="p-3.5 text-center">
-                            ${p.isResultPublished ? `
-                                <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-full text-xs">📢 공개됨</span>
-                            ` : `
-                                <span class="bg-slate-100 text-slate-600 font-bold px-2.5 py-1 rounded-full text-xs">🔒 비공개</span>
-                            `}
-                        </td>
-                        <td class="p-3.5 text-center">
-                            <button onclick="togglePublishResult('${p.id}')" class="px-3 py-1.5 rounded-xl font-jua text-xs text-white shadow-sm transition-all ${p.isResultPublished ? 'bg-slate-700 hover:bg-slate-800' : 'bg-emerald-500 hover:bg-emerald-600'}">
-                                ${p.isResultPublished ? '비공개로 변경' : '목표 달성 여부 공개하기'}
-                            </button>
-                        </td>
-                        <td class="p-3.5 text-center">
-                            <button onclick="confirmDeleteProject('${p.id}')" class="px-3 py-1.5 rounded-xl font-jua text-xs bg-red-500 hover:bg-red-600 text-white shadow-sm transition-all flex items-center justify-center gap-1 mx-auto">
-                                <i class="fa-solid fa-trash-can"></i> 삭제
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
+        function handleImagePreview(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    const MAX_SIZE = 800;
+
+                    if (width > height && width > MAX_SIZE) {
+                        height *= MAX_SIZE / width;
+                        width = MAX_SIZE;
+                    } else if (height > MAX_SIZE) {
+                        width *= MAX_SIZE / height;
+                        height = MAX_SIZE;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    uploadedImageData = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = uploadedImageData;
+                    preview.classList.remove('hidden');
+                    document.getElementById('imagePreviewContainer').classList.add('hidden');
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
         async function handleInventionSubmit(e) {
             e.preventDefault();
-            if (!currentUser) return;
+            if (!currentUser) {
+                openCreateModal(); 
+                return;
+            }
 
             const title = document.getElementById('inputTitle').value.trim();
             const category = document.getElementById('inputCategory').value;
@@ -875,184 +739,235 @@
                 raised: 0,
                 author: currentUser.name,
                 createdAt: new Date().toLocaleDateString('ko-KR'),
+                timestamp: Date.now(),
                 imageUrl: uploadedImageData,
                 isSample: false,
                 isResultPublished: false,
                 reward: reward || '감사 인사 카드'
             };
 
-            if (dbUser) {
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', newProject.id);
-                await setDoc(docRef, newProject);
-            } else {
-                projects.unshift(newProject);
-                renderProjects();
+            try {
+                if (dbUser) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', newProject.id);
+                    await setDoc(docRef, newProject);
+                } else {
+                    projects.unshift(newProject);
+                    renderProjects();
+                }
+
+                closeCreateModal();
+                showToast('🚀 새로운 발명품이 성공적으로 등록되었습니다!', '✨');
+            } catch (err) {
+                console.error("Firestore save error:", err);
+                showToast('⚠️ 등록 중 오류가 발생했습니다.', '❌');
             }
-
-            closeCreateModal();
-            document.querySelector('form').reset();
-            showToast('🚀 새로운 발명품이 성공적으로 등록되었습니다!', '✨');
         }
 
-        function openDetailModal(id) {
-            const project = projects.find(p => p.id === id);
-            if (!project) return;
-            currentDetailProject = project;
+        async function handleEditSubmit(e) {
+            e.preventDefault();
+            if(!targetEditId) return;
 
-            const percent = Math.min(100, Math.round((project.raised / project.goal) * 100));
-            const isSuccess = project.raised >= project.goal;
-            const isAuthor = currentUser && currentUser.name === project.author;
+            const title = document.getElementById('editTitle').value.trim();
+            const category = document.getElementById('editCategory').value;
+            const description = document.getElementById('editDescription').value.trim();
+            const goal = parseInt(document.getElementById('editGoal').value);
+            const reward = document.getElementById('editReward').value.trim();
 
-            const modalContent = document.getElementById('detailContent');
-            modalContent.innerHTML = `
-                <div class="relative h-64 sm:h-80 bg-slate-900">
-                    <img src="${project.imageUrl}" class="w-full h-full object-cover opacity-90">
-                    <button onclick="closeDetailModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/80 flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                        <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                            ${project.category}
-                        </span>
-                        ${project.isSample ? `
-                            <span class="bg-amber-400 text-slate-900 font-bold text-xs px-3 py-1 rounded-full shadow-md">
-                                💡 체험용 예시 게시물
-                            </span>
-                        ` : ''}
-                    </div>
-                </div>
-
-                <div class="p-6 sm:p-8 space-y-6">
-                    <div>
-                        <div class="flex items-center justify-between text-sm text-slate-500 mb-2">
-                            <div class="flex items-center gap-2">
-                                <span>👤 ${project.author}</span>
-                                <span>•</span>
-                                <span>등록일: ${project.createdAt}</span>
-                            </div>
-                            
-                            ${(isAuthor || isAdminLoggedIn) && !project.isSample ? `
-                                <div class="flex items-center gap-2">
-                                    <button onclick="openEditModal('${project.id}')" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-2.5 py-1 rounded-lg transition-all flex items-center gap-1">
-                                        ✏️ 수정하기
-                                    </button>
-                                    <button onclick="confirmDeleteProject('${project.id}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-2.5 py-1 rounded-lg transition-all flex items-center gap-1 border border-red-200">
-                                        🗑️ 삭제하기
-                                    </button>
-                                </div>
-                            ` : ''}
-                        </div>
-                        <h2 class="font-jua text-3xl text-slate-800 mb-3">${project.title}</h2>
-                        <p class="text-slate-600 text-sm leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            ${project.description}
-                        </p>
-                    </div>
-
-                    <div class="bg-emerald-50/60 border border-emerald-200/80 rounded-2xl p-5 space-y-3">
-                        <div class="flex justify-between items-center text-xs font-bold text-emerald-900">
-                            <span>🎁 펀딩 리워드 약속</span>
-                        </div>
-                        <p class="text-xs text-emerald-800">${project.reward || '감사 축하 메시지'}</p>
-                    </div>
-
-                    ${project.isResultPublished ? `
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
-                            <div class="flex justify-between text-sm font-bold">
-                                <span>🎯 모인 포인트: <strong class="text-emerald-600">${project.raised.toLocaleString()} P</strong></span>
-                                <span class="${isSuccess ? 'text-emerald-600' : 'text-amber-600'}">${percent}% 달성 (${isSuccess ? '목표 성공 🎉' : '진행 중'})</span>
-                            </div>
-                            <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
-                                <div class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: ${percent}%"></div>
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    <!-- Funding Buttons -->
-                    <div class="border-t border-slate-100 pt-6 space-y-3">
-                        <h4 class="font-jua text-lg text-slate-800">🌱 이 발명품 펀딩에 참여하기</h4>
-                        ${project.isSample ? `
-                            <div class="bg-amber-50 text-amber-800 border border-amber-200 p-3.5 rounded-2xl text-xs text-center font-bold">
-                                🔒 체험용 예시 게시물은 펀딩 참여가 불가능합니다.
-                            </div>
-                        ` : `
-                            <div class="grid grid-cols-3 gap-2">
-                                <button onclick="fundProject('${project.id}', 1000)" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-jua py-3 rounded-2xl text-sm transition-all active:scale-95">
-                                    + 1,000 P
-                                </button>
-                                <button onclick="fundProject('${project.id}', 5000)" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-jua py-3 rounded-2xl text-sm transition-all active:scale-95">
-                                    + 5,000 P
-                                </button>
-                                <button onclick="fundProject('${project.id}', 10000)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-jua py-3 rounded-2xl text-sm shadow-md transition-all active:scale-95">
-                                    + 10,000 P
-                                </button>
-                            </div>
-                        `}
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('detailModal').classList.remove('hidden');
+            try {
+                if(dbUser) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', targetEditId);
+                    await updateDoc(docRef, { title, category, description, goal, reward });
+                } else {
+                    const proj = projects.find(p => p.id === targetEditId);
+                    if(proj) {
+                        proj.title = title;
+                        proj.category = category;
+                        proj.description = description;
+                        proj.goal = goal;
+                        proj.reward = reward;
+                    }
+                    renderProjects();
+                }
+                closeEditModal();
+                showToast('수정이 완료되었습니다.', '✅');
+            } catch(err) {
+                console.error("Edit error:", err);
+                showToast('수정 중 오류가 발생했습니다.', '❌');
+            }
         }
 
-        function closeDetailModal() {
-            currentDetailProject = null;
-            document.getElementById('detailModal').classList.add('hidden');
+        async function executeDeleteProject() {
+            if(!targetDeleteId) return;
+            try {
+                if(dbUser) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', targetDeleteId);
+                    await deleteDoc(docRef);
+                } else {
+                    projects = projects.filter(p => p.id !== targetDeleteId);
+                    renderProjects();
+                    renderAdminProjectList();
+                }
+                closeDeleteModal();
+                showToast('게시물이 삭제되었습니다.', '🗑️');
+            } catch(err) {
+                console.error("Delete error:", err);
+                showToast('삭제 중 오류가 발생했습니다.', '❌');
+            }
+        }
+        
+        function deleteProjectFromAdmin(id) {
+            targetDeleteId = id;
+            document.getElementById('deleteConfirmModal').classList.remove('hidden');
         }
 
-        async function fundProject(id, amount) {
+        async function fundProject(id) {
             if (!currentUser) {
-                closeDetailModal();
+                showToast('이름을 먼저 등록해주세요!', '⚠️');
                 document.getElementById('userModal').classList.remove('hidden');
                 return;
             }
 
-            if (currentUser.points < amount) {
-                showToast('⚠️ 잔여 포인트가 부족합니다.', '💰');
+            const fundAmount = 5000; 
+
+            if (currentUser.points < fundAmount) {
+                showToast('포인트가 부족합니다!', '😥');
                 return;
             }
 
-            const p = projects.find(item => item.id === id);
-            if (!p || p.isSample) return;
-
-            currentUser.points -= amount;
-            p.raised += amount;
-
-            document.getElementById('userPointDisplay').innerText = currentUser.points.toLocaleString();
-
-            if (dbUser) {
-                const pRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', id);
-                await updateDoc(pRef, { raised: p.raised });
-            } else {
-                renderProjects();
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+            
+            if (project.isSample) {
+                showToast('예시 게시물은 펀딩할 수 없습니다.', '💡');
+                return;
             }
 
-            openDetailModal(id);
-            showToast(`${amount.toLocaleString()} P 펀딩 완료! 🎉`, '❤️');
-
-            if (typeof confetti === 'function') {
+            try {
+                if(dbUser) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', id);
+                    await updateDoc(docRef, { raised: project.raised + fundAmount });
+                } else {
+                    project.raised += fundAmount;
+                    renderProjects();
+                }
+                
+                currentUser.points -= fundAmount;
+                updatePointDisplay();
+                
                 confetti({
-                    particleCount: 50,
-                    spread: 60,
-                    origin: { y: 0.7 }
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#34d399', '#fbbf24', '#60a5fa']
                 });
+
+                showToast(`멋진 아이디어에 ${fundAmount}P를 펀딩했습니다!`, '🎉');
+                closeDetailModal();
+                
+            } catch(err) {
+                console.error("Funding error", err);
+                showToast('펀딩 중 오류가 발생했습니다.', '❌');
             }
         }
 
-        function filterCategory(cat) {
-            currentFilter = cat;
+        function renderDetailModal() {
+            if(!currentDetailProject) return;
+            const p = currentDetailProject;
+            const isMyPost = currentUser && p.author === currentUser.name;
+            const isSuccess = p.raised >= p.goal;
+            const percent = Math.min(100, Math.round((p.raised / p.goal) * 100));
+
+            document.getElementById('detailContent').innerHTML = `
+                <div class="relative h-64 sm:h-80 bg-slate-100">
+                    <img src="${p.imageUrl}" class="w-full h-full object-cover">
+                    <button onclick="closeDetailModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-900/40 text-white flex items-center justify-center hover:bg-slate-900/60 transition-all backdrop-blur-sm">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                    ${isMyPost ? `
+                        <div class="absolute top-4 left-4 flex gap-2">
+                            <button onclick="openEditModal('${p.id}')" class="bg-white/90 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm hover:bg-white transition-all flex items-center gap-1.5 backdrop-blur-sm">
+                                ✏️ 수정
+                            </button>
+                            <button onclick="openDeleteModal('${p.id}')" class="bg-red-500/90 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm hover:bg-red-500 transition-all flex items-center gap-1.5 backdrop-blur-sm">
+                                🗑️ 삭제
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="p-6 sm:p-8 space-y-6">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">
+                                ${p.category}
+                            </span>
+                        </div>
+                        <h2 class="font-jua text-3xl text-slate-800">${p.title}</h2>
+                        <p class="text-sm text-slate-500 mt-1">발명가: <span class="font-bold">${p.author}</span> | 등록일: ${p.createdAt}</p>
+                    </div>
+                    
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                        <h4 class="font-bold text-slate-700 text-sm mb-2">어떤 발명품인가요?</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">${p.description}</p>
+                    </div>
+
+                    ${p.isResultPublished ? `
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-xs text-slate-500 mb-1">모인 포인트 / 목표</p>
+                                    <p class="font-jua text-2xl ${isSuccess ? 'text-emerald-600' : 'text-slate-800'}">
+                                        ${p.raised.toLocaleString()} <span class="text-lg text-slate-400">/ ${p.goal.toLocaleString()} P</span>
+                                    </p>
+                                </div>
+                                <span class="font-bold text-lg ${isSuccess ? 'text-emerald-600' : 'text-slate-500'}">${percent}%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                                <div class="${isSuccess ? 'bg-emerald-500' : 'bg-amber-400'} h-full rounded-full transition-all duration-1000" style="width: ${percent}%"></div>
+                            </div>
+                            ${isSuccess ? `<p class="text-xs text-emerald-600 font-bold bg-emerald-50 p-2 rounded-xl text-center">🎉 목표 펀딩 금액을 달성했습니다!</p>` : ''}
+                        </div>
+                    ` : `
+                        <div class="bg-amber-50 rounded-2xl p-5 border border-amber-100 text-center space-y-3">
+                            <p class="text-sm font-bold text-amber-800">이 발명품에 펀딩하시겠습니까?</p>
+                            <p class="text-xs text-amber-600">펀딩 성공 시 보상: ${p.reward}</p>
+                            <button onclick="fundProject('${p.id}')" ${p.isSample ? 'disabled' : ''} class="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-jua text-lg py-3 rounded-2xl shadow-sm hover:shadow transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                                🪙 5,000P 펀딩하기
+                            </button>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function filterCategory(category) {
+            currentFilter = category;
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 btn.classList.remove('bg-emerald-500', 'text-white', 'border-emerald-500', 'shadow-sm');
                 btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
             });
+            event.target.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+            event.target.classList.add('bg-emerald-500', 'text-white', 'border-emerald-500', 'shadow-sm');
+            renderProjects();
+        }
 
-            event.currentTarget.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-            event.currentTarget.classList.add('bg-emerald-500', 'text-white', 'border-emerald-500', 'shadow-sm');
+        function filterAuthor(type) {
+            authorFilter = type;
+            document.querySelectorAll('.author-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-emerald-700', 'shadow-sm');
+                btn.classList.add('text-slate-600');
+            });
 
+            const activeBtnMap = { 'ALL': 'authorBtnAll', 'MINE': 'authorBtnMine', 'OTHERS': 'authorBtnOthers' };
+            const targetBtn = document.getElementById(activeBtnMap[type]);
+            if (targetBtn) {
+                targetBtn.classList.remove('text-slate-600');
+                targetBtn.classList.add('bg-white', 'text-emerald-700', 'shadow-sm');
+            }
             renderProjects();
         }
 
         function handleSearch() {
-            searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            searchQuery = document.getElementById('searchInput').value.toLowerCase();
             renderProjects();
         }
 
@@ -1063,7 +978,15 @@
             let filtered = projects.filter(p => {
                 const matchCat = currentFilter === 'ALL' || p.category === currentFilter;
                 const matchSearch = p.title.toLowerCase().includes(searchQuery) || p.description.toLowerCase().includes(searchQuery) || p.author.toLowerCase().includes(searchQuery);
-                return matchCat && matchSearch;
+                
+                let matchAuthor = true;
+                if (authorFilter === 'MINE') {
+                    matchAuthor = currentUser && p.author === currentUser.name;
+                } else if (authorFilter === 'OTHERS') {
+                    matchAuthor = !currentUser || p.author !== currentUser.name;
+                }
+
+                return matchCat && matchSearch && matchAuthor;
             });
 
             if (filtered.length === 0) {
@@ -1077,15 +1000,21 @@
             grid.innerHTML = filtered.map(p => {
                 const percent = Math.min(100, Math.round((p.raised / p.goal) * 100));
                 const isSuccess = p.raised >= p.goal;
+                const isMyPost = currentUser && p.author === currentUser.name;
 
                 return `
-                    <div onclick="openDetailModal('${p.id}')" class="bg-white rounded-3xl overflow-hidden border border-slate-200/80 hover:border-emerald-300 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col group">
+                    <div onclick="openDetailModal('${p.id}')" class="bg-white rounded-3xl overflow-hidden border border-slate-200/80 hover:border-emerald-300 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col group relative">
                         <div class="relative h-48 bg-slate-100 overflow-hidden">
                             <img src="${p.imageUrl}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute top-3 left-3 flex gap-1.5">
+                            <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
                                 <span class="bg-white/90 backdrop-blur-md text-emerald-800 text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
                                     ${p.category}
                                 </span>
+                                ${isMyPost ? `
+                                    <span class="bg-indigo-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
+                                        🙋 내가 올린 글
+                                    </span>
+                                ` : ''}
                                 ${p.isSample ? `
                                     <span class="bg-amber-400/90 backdrop-blur-md text-slate-900 text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
                                         💡 예시
@@ -1096,21 +1025,21 @@
 
                         <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
                             <div>
-                                <div class="text-xs text-slate-400 mb-1 flex items-center gap-1">
-                                    <span>👤 ${p.author}</span>
+                                <div class="text-xs text-slate-400 mb-1 flex items-center justify-between">
+                                    <span class="font-medium ${isMyPost ? 'text-indigo-600 font-bold' : 'text-slate-500'}">
+                                        👤 ${p.author}
+                                    </span>
+                                    <span>${p.createdAt || ''}</span>
                                 </div>
                                 <h3 class="font-jua text-xl text-slate-800 group-hover:text-emerald-600 transition-colors line-clamp-1">
                                     ${p.title}
                                 </h3>
-                                <p class="text-slate-500 text-xs mt-1.5 line-clamp-2 leading-relaxed">
-                                    ${p.description}
-                                </p>
                             </div>
 
                             ${p.isResultPublished ? `
                                 <div class="space-y-1.5 pt-2 border-t border-slate-100">
                                     <div class="flex justify-between items-center text-xs font-bold">
-                                        <span class="${isSuccess ? 'text-emerald-600' : 'text-amber-600'}">${percent}% 달성 (${isSuccess ? '성공 🎉' : '진행중'})</span>
+                                        <span class="${isSuccess ? 'text-emerald-600' : 'text-amber-600'}">${percent}% 달성</span>
                                         <span class="text-slate-400">${p.raised.toLocaleString()} P</span>
                                     </div>
                                     <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
@@ -1130,29 +1059,174 @@
             }).join('');
         }
 
+        function verifyAdminPassword(e) {
+            e.preventDefault();
+            const input = document.getElementById('adminPasswordInput').value;
+            if (input === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                openAdminDashboard();
+                showToast('관리자 로그인 성공', '🔐');
+            } else {
+                showToast('비밀번호가 틀렸습니다.', '❌');
+            }
+        }
+
+        function renderAdminProjectList() {
+            const tbody = document.getElementById('adminProjectList');
+            const targetProjects = projects.filter(p => !p.isSample);
+            
+            if(targetProjects.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center p-5 text-slate-500">등록된 학생 게시물이 없습니다.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = targetProjects.map(p => {
+                const percent = Math.min(100, Math.round((p.raised / p.goal) * 100));
+                return `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-3.5 font-bold text-slate-800">${p.title}</td>
+                        <td class="p-3.5 text-slate-600">${p.author}</td>
+                        <td class="p-3.5 text-slate-600">${p.raised.toLocaleString()} / ${p.goal.toLocaleString()}</td>
+                        <td class="p-3.5 font-bold ${percent >= 100 ? 'text-emerald-600' : 'text-amber-600'}">${percent}%</td>
+                        <td class="p-3.5 text-center">
+                            <span class="px-2 py-1 text-[10px] font-bold rounded-full ${p.isResultPublished ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'}">
+                                ${p.isResultPublished ? '공개됨' : '비공개'}
+                            </span>
+                        </td>
+                        <td class="p-3.5 text-center">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" ${p.isResultPublished ? 'checked' : ''} onchange="togglePublishResult('${p.id}', this.checked)">
+                                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                            </label>
+                        </td>
+                        <td class="p-3.5 text-center">
+                            <button onclick="deleteProjectFromAdmin('${p.id}')" class="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-xl text-xs font-bold transition-all">
+                                🗑️ 삭제
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function togglePublishResult(id, isPublished) {
+            try {
+                if(dbUser) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', id);
+                    await updateDoc(docRef, { isResultPublished: isPublished });
+                } else {
+                    const proj = projects.find(p => p.id === id);
+                    if(proj) proj.isResultPublished = isPublished;
+                    renderAdminProjectList();
+                    renderProjects();
+                }
+            } catch(err) {
+                console.error("Toggle error:", err);
+            }
+        }
+
+        async function setAllPublishResults(status) {
+            const targetProjects = projects.filter(p => !p.isSample);
+            if(targetProjects.length === 0) return;
+
+            try {
+                if(dbUser) {
+                    const promises = targetProjects.map(p => {
+                        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', p.id);
+                        return updateDoc(docRef, { isResultPublished: status });
+                    });
+                    await Promise.all(promises);
+                } else {
+                    targetProjects.forEach(p => p.isResultPublished = status);
+                    renderAdminProjectList();
+                    renderProjects();
+                }
+                showToast(`모든 발명품의 결과를 ${status ? '공개' : '비공개'} 처리했습니다.`, '✅');
+            } catch(err) {
+                console.error("Bulk update error:", err);
+                showToast('일괄 변경 중 오류가 발생했습니다.', '❌');
+            }
+        }
+
+        function renderRankingList() {
+            const container = document.getElementById('rankingList');
+            const published = projects.filter(p => !p.isSample && p.isResultPublished);
+            
+            if(published.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10">
+                        <div class="text-4xl mb-3">🔒</div>
+                        <p class="text-slate-500 font-bold">아직 펀딩 결과가 공개되지 않았습니다.</p>
+                        <p class="text-xs text-slate-400 mt-1">관리자가 결과를 공개하면 순위를 확인할 수 있어요!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const sorted = [...published].sort((a, b) => b.raised - a.raised);
+            const medals = ['🥇', '🥈', '🥉'];
+
+            container.innerHTML = sorted.map((p, index) => {
+                const rankIcon = index < 3 ? medals[index] : `<span class="text-sm text-slate-400 font-bold bg-slate-100 w-6 h-6 flex items-center justify-center rounded-full">${index + 1}</span>`;
+                const isSuccess = p.raised >= p.goal;
+                
+                return `
+                    <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                        <div class="text-2xl w-8 text-center">${rankIcon}</div>
+                        <img src="${p.imageUrl}" class="w-12 h-12 rounded-xl object-cover border border-slate-200">
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-slate-800 text-sm line-clamp-1">${p.title}</h4>
+                            <p class="text-xs text-slate-500">${p.author}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-jua text-emerald-600">${p.raised.toLocaleString()} P</p>
+                            <p class="text-[10px] ${isSuccess ? 'text-emerald-500 font-bold' : 'text-slate-400'}">
+                                ${isSuccess ? '목표달성 성공!' : '진행중'}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         async function initRealtimeSync() {
             try {
-                const userCred = await signInAnonymously(auth);
-                dbUser = userCred.user;
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    const userCred = await signInWithCustomToken(auth, __initial_auth_token);
+                    dbUser = userCred.user;
+                } else {
+                    const userCred = await signInAnonymously(auth);
+                    dbUser = userCred.user;
+                }
 
                 const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'projects');
                 onSnapshot(colRef, (snapshot) => {
-                    if (snapshot.empty) {
+                    const fetched = [];
+                    snapshot.forEach((doc) => {
+                        fetched.push(doc.data());
+                    });
+
+                    fetched.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+                    if (fetched.length === 0) {
                         projects = [...sampleProjects];
                     } else {
-                        const fetched = [];
-                        snapshot.forEach((doc) => {
-                            fetched.push(doc.data());
-                        });
-                        const hasSamples = fetched.some(p => p.isSample);
-                        projects = hasSamples ? fetched : [...sampleProjects, ...fetched];
+                        const sampleIds = sampleProjects.map(s => s.id);
+                        const nonSampleFetched = fetched.filter(p => !sampleIds.includes(p.id));
+                        projects = [...nonSampleFetched, ...sampleProjects];
                     }
                     renderProjects();
                     if (!document.getElementById('adminDashboardModal').classList.contains('hidden')) {
                         renderAdminProjectList();
                     }
+                    if (!document.getElementById('rankingModal').classList.contains('hidden')) {
+                        renderRankingList();
+                    }
+                }, (error) => {
+                    console.error("Firestore snapshot listener error:", error);
                 });
             } catch (err) {
+                console.error("Realtime auth sync error:", err);
                 projects = [...sampleProjects];
                 renderProjects();
             }

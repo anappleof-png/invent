@@ -1,1240 +1,745 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>꿈나무 발명 펀딩소</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Jua, Inter) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Jua&display=swap" rel="stylesheet">
-    <!-- Canvas Confetti for Celebration Effect -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-        }
-        .font-jua {
-            font-family: 'Jua', sans-serif;
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>꿈나무 발명 펀딩소</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EAF6FF;
+    --bg-dot:#D7ECFB;
+    --card:#FFFFFF;
+    --primary:#43B36B;
+    --primary-dark:#2E8B52;
+    --secondary:#FFC93C;
+    --secondary-dark:#F0A800;
+    --accent:#FF6F59;
+    --accent-dark:#E5553F;
+    --text:#28344E;
+    --text-soft:#63719086;
+    --text-soft2:#5C6B8A;
+    --border:#D8E9F5;
+    --radius-lg:26px;
+    --radius-md:18px;
+    --radius-sm:12px;
+    --shadow:0 10px 24px rgba(40,52,78,0.10);
+    --shadow-soft:0 4px 12px rgba(40,52,78,0.08);
+    --font-display:'Jua', sans-serif;
+    --font-hand:'Gaegu', sans-serif;
+    --font-body:'Noto Sans KR', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  html,body{
+    background:
+      radial-gradient(var(--bg-dot) 2px, transparent 2px) 0 0/26px 26px,
+      var(--bg);
+    font-family:var(--font-body);
+    color:var(--text);
+    min-height:100vh;
+  }
+  h1,h2,h3,button{font-family:var(--font-display);}
+  button{cursor:pointer; border:none; font-family:var(--font-display);}
+  input,textarea{font-family:var(--font-body);}
+  .hidden{display:none !important;}
+
+  /* ===== Header ===== */
+  .site-header{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; padding:14px 22px;
+    background:rgba(255,255,255,0.92); backdrop-filter:blur(6px);
+    border-bottom:3px dashed var(--primary);
+  }
+  .logo{display:flex; align-items:center; gap:10px;}
+  .logo .sprout{font-size:34px; filter:drop-shadow(0 3px 0 rgba(0,0,0,0.08));}
+  .logo h1{margin:0; font-size:24px; color:var(--primary-dark); letter-spacing:0.5px;}
+  .logo p{margin:0; font-family:var(--font-hand); font-size:13px; color:var(--text-soft2); font-weight:700;}
+  .user-pill{
+    display:flex; align-items:center; gap:10px;
+    background:linear-gradient(135deg,#FFF7DC,#FFEFC2);
+    border:2px solid var(--secondary-dark);
+    border-radius:999px; padding:8px 16px;
+    font-family:var(--font-display); font-size:14px; color:var(--text);
+    white-space:nowrap;
+  }
+  .user-pill b{color:var(--primary-dark);}
+  .user-pill .coin{font-size:16px;}
+
+  /* ===== Intro banner ===== */
+  .intro{
+    max-width:960px; margin:22px auto 6px; padding:0 20px;
+    text-align:center;
+  }
+  .intro h2{
+    font-family:var(--font-hand); font-weight:700; font-size:22px;
+    color:var(--primary-dark); margin:0 0 4px;
+  }
+  .intro p{margin:0; color:var(--text-soft2); font-size:14px;}
+
+  main{max-width:1100px; margin:0 auto; padding:18px 20px 120px;}
+
+  /* ===== Board grid ===== */
+  .board-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+    gap:22px; margin-top:18px;
+  }
+  .empty-state{
+    grid-column:1/-1; text-align:center; padding:60px 20px;
+    color:var(--text-soft2); font-family:var(--font-hand); font-size:18px;
+  }
+
+  /* ===== Card ===== */
+  .post-card{
+    background:var(--card); border-radius:var(--radius-lg);
+    box-shadow:var(--shadow); border:2px solid var(--border);
+    overflow:hidden; display:flex; flex-direction:column;
+    position:relative; transition:transform .15s ease;
+  }
+  .post-card:hover{transform:translateY(-3px);}
+  .post-card.success{border-color:var(--secondary-dark);}
+  .success-badge{
+    position:absolute; top:12px; right:-34px; transform:rotate(35deg);
+    background:var(--accent); color:#fff; font-size:12px; font-family:var(--font-display);
+    padding:5px 40px; box-shadow:0 3px 6px rgba(0,0,0,0.15); z-index:2;
+  }
+  .card-img{
+    width:100%; height:170px; object-fit:cover; background:#F1F6FB;
+    border-bottom:3px solid var(--border);
+  }
+  .card-img.placeholder{
+    display:flex; align-items:center; justify-content:center;
+    font-size:48px; color:#B9CEE0;
+  }
+  .card-body{padding:16px 18px 18px; display:flex; flex-direction:column; gap:10px; flex:1;}
+  .card-title{margin:0; font-size:19px; color:var(--text); line-height:1.3;}
+  .author-badge{
+    align-self:flex-start;
+    font-family:var(--font-hand); font-weight:700; font-size:13px;
+    background:#EFF8F0; color:var(--primary-dark);
+    border-radius:999px; padding:3px 12px;
+  }
+  .card-desc{font-size:14px; color:var(--text-soft2); line-height:1.55; margin:0; white-space:pre-wrap;}
+  .perks-box{
+    background:#FFFBEA; border:1.5px dashed var(--secondary-dark);
+    border-radius:var(--radius-sm); padding:10px 12px; font-size:13px; color:#6B5300;
+    white-space:pre-wrap; line-height:1.5;
+  }
+  .perks-box b{font-family:var(--font-display); color:#8A6A00;}
+
+  /* growth progress */
+  .grow-row{display:flex; align-items:center; gap:10px;}
+  .grow-emoji{font-size:30px; line-height:1;}
+  .grow-track{
+    flex:1; height:16px; background:#EAF1F8; border-radius:999px; overflow:hidden;
+    border:2px solid var(--border);
+  }
+  .grow-fill{
+    height:100%; border-radius:999px;
+    background:linear-gradient(90deg, var(--primary), var(--secondary));
+    transition:width .4s ease;
+  }
+  .grow-stats{display:flex; justify-content:space-between; font-size:12.5px; color:var(--text-soft2); font-weight:700;}
+  .grow-stats .goal{color:var(--accent-dark);}
+  .grow-label{font-family:var(--font-hand); font-size:13px; color:var(--primary-dark); font-weight:700;}
+
+  /* funding controls */
+  .fund-box{
+    margin-top:4px; padding-top:12px; border-top:2px dashed var(--border);
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .quick-row{display:flex; gap:6px; flex-wrap:wrap;}
+  .quick-btn{
+    background:#F1F6FB; color:var(--text-soft2); border:1.5px solid var(--border);
+    border-radius:999px; font-size:12px; padding:5px 10px; font-family:var(--font-body); font-weight:700;
+  }
+  .quick-btn:hover{background:var(--border);}
+  .fund-input-row{display:flex; gap:8px;}
+  .fund-input{
+    flex:1; min-width:0; border:2px solid var(--border); border-radius:var(--radius-sm);
+    padding:9px 12px; font-size:14px; outline:none;
+  }
+  .fund-input:focus{border-color:var(--primary);}
+  .fund-btn{
+    background:var(--accent); color:#fff; border-radius:var(--radius-sm);
+    padding:9px 16px; font-size:14px; box-shadow:0 3px 0 var(--accent-dark);
+    transition:transform .08s;
+  }
+  .fund-btn:hover{transform:translateY(1px); box-shadow:0 2px 0 var(--accent-dark);}
+  .fund-btn:disabled{background:#C9D3E0; box-shadow:none; cursor:not-allowed;}
+  .own-note{font-size:12px; color:var(--text-soft2); font-family:var(--font-hand); font-weight:700; text-align:center;}
+
+  /* ===== FAB ===== */
+  .fab{
+    position:fixed; right:26px; bottom:26px; z-index:15;
+    display:flex; align-items:center; gap:8px;
+    background:linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color:#fff; font-size:16px; padding:16px 22px; border-radius:999px;
+    box-shadow:0 8px 18px rgba(255,111,89,0.45);
+    transition:transform .12s;
+  }
+  .fab:hover{transform:translateY(-2px) scale(1.03);}
+  .fab .plus{font-size:20px;}
+
+  /* ===== Modal ===== */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(40,52,78,0.55);
+    display:flex; align-items:center; justify-content:center; z-index:50;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--card); border-radius:var(--radius-lg); box-shadow:var(--shadow);
+    max-width:460px; width:100%; padding:28px 26px; max-height:88vh; overflow-y:auto;
+    border:3px solid var(--primary);
+  }
+  .modal-box.wide{max-width:560px;}
+  .modal-box h2{margin:0 0 6px; font-size:22px; color:var(--primary-dark); text-align:center;}
+  .modal-sub{text-align:center; font-family:var(--font-hand); font-weight:700; color:var(--text-soft2); font-size:14px; margin:0 0 18px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-family:var(--font-display); font-size:14px; color:var(--text); margin-bottom:6px;}
+  .field input[type=text], .field input[type=number], .field textarea{
+    width:100%; border:2px solid var(--border); border-radius:var(--radius-sm);
+    padding:10px 12px; font-size:14px; outline:none; resize:vertical;
+  }
+  .field input:focus, .field textarea:focus{border-color:var(--primary);}
+  .field input[type=file]{
+    width:100%; font-size:13px; padding:8px; border:2px dashed var(--border); border-radius:var(--radius-sm);
+    background:#F8FBFE;
+  }
+  .img-preview{
+    margin-top:8px; max-width:100%; max-height:150px; border-radius:var(--radius-sm);
+    display:none; border:2px solid var(--border);
+  }
+  .modal-actions{display:flex; gap:10px; margin-top:20px;}
+  .btn-primary{
+    flex:1; background:var(--primary); color:#fff; border-radius:var(--radius-sm);
+    padding:12px; font-size:16px; box-shadow:0 3px 0 var(--primary-dark);
+  }
+  .btn-primary:hover{transform:translateY(1px); box-shadow:0 2px 0 var(--primary-dark);}
+  .btn-ghost{
+    background:#EEF3F8; color:var(--text-soft2); border-radius:var(--radius-sm);
+    padding:12px 18px; font-size:15px;
+  }
+  .name-input{
+    width:100%; text-align:center; font-size:20px; padding:14px; border-radius:var(--radius-md);
+    border:2.5px solid var(--border); outline:none; font-family:var(--font-display);
+  }
+  .name-input:focus{border-color:var(--primary);}
+  .point-callout{
+    text-align:center; margin-top:14px; font-family:var(--font-hand); font-weight:700;
+    color:var(--secondary-dark); font-size:15px;
+  }
+
+  /* ===== Toast ===== */
+  #toast{
+    position:fixed; left:50%; bottom:100px; transform:translate(-50%,20px);
+    background:var(--text); color:#fff; padding:12px 22px; border-radius:999px;
+    font-family:var(--font-display); font-size:14px; z-index:60;
+    opacity:0; pointer-events:none; transition:all .25s ease;
+    box-shadow:0 6px 16px rgba(0,0,0,0.25); max-width:90vw; text-align:center;
+  }
+  #toast.show{opacity:1; transform:translate(-50%,0);}
+
+  @media(max-width:520px){
+    .site-header{padding:12px 14px;}
+    .logo h1{font-size:19px;}
+    .logo .sprout{font-size:26px;}
+    .fab{right:16px; bottom:16px; padding:14px 18px; font-size:14px;}
+  }
+</style>
 </head>
-<body class="text-slate-800 min-h-screen flex flex-col selection:bg-emerald-200 selection:text-emerald-900">
+<body>
 
-    <!-- HEADER / NAVIGATION -->
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm transition-all">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <!-- Logo -->
-            <div class="flex items-center gap-3 cursor-pointer" onclick="scrollToGrid()">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white text-xl shadow-md shadow-emerald-200">
-                    💡
-                </div>
-                <div>
-                    <h1 class="font-jua text-2xl text-slate-800 leading-none">꿈나무 발명 펀딩소</h1>
-                    <p class="text-[10px] text-emerald-600 font-bold tracking-wider uppercase">Kids Invention Crowdfunding</p>
-                </div>
-            </div>
-
-            <!-- Top Right Action Controls -->
-            <div class="flex items-center gap-2 sm:gap-3">
-                <button onclick="openRankingModal()" class="bg-amber-400 hover:bg-amber-500 text-amber-950 font-jua text-sm px-3.5 py-2 rounded-2xl shadow-sm hover:shadow transition-all flex items-center gap-1.5 active:scale-95">
-                    <span>🏆</span>
-                    <span class="hidden sm:inline">펀딩 순위</span>
-                </button>
-
-                <button onclick="openAdminAuthModal()" class="bg-slate-800 hover:bg-slate-900 text-white font-jua text-sm px-3.5 py-2 rounded-2xl shadow-sm hover:shadow transition-all flex items-center gap-1.5 active:scale-95">
-                    <span>⚙️</span>
-                    <span class="hidden sm:inline">관리자</span>
-                </button>
-
-                <!-- User Profile Info -->
-                <div id="userBadge" class="hidden items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-2xl">
-                    <span class="text-xs font-bold text-emerald-800" id="userNameDisplay">은여울</span>
-                    <div class="h-3 w-px bg-emerald-300"></div>
-                    <span class="text-xs font-bold text-emerald-600"><span id="userPointDisplay">100,000</span>P</span>
-                </div>
-            </div>
+  <!-- 이름 입력 팝업 -->
+  <div id="nameModal" class="modal-overlay">
+    <div class="modal-box">
+      <h2>🌱 어서 와요!</h2>
+      <p class="modal-sub">꿈나무 발명 펀딩소에 입장할 이름을 알려주세요</p>
+      <form id="nameForm">
+        <input type="text" id="nameInput" class="name-input" placeholder="이름을 입력해요" maxlength="12" required autocomplete="off">
+        <div class="point-callout">✨ 입장하면 100,000 포인트를 바로 받아요!</div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">🚀 입장하기</button>
         </div>
-    </header>
-
-    <!-- HERO SECTION -->
-    <section class="bg-gradient-to-b from-emerald-500/10 via-teal-500/5 to-transparent py-10 sm:py-14 px-4 border-b border-slate-100">
-        <div class="max-w-4xl mx-auto text-center space-y-4">
-            <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
-                🌱 세상을 바꾸는 작은 아이디어
-            </span>
-            <h2 class="font-jua text-3xl sm:text-5xl text-slate-900 leading-tight">
-                나만의 발명품을 등록하고<br class="sm:hidden"/> 친구들의 꿈을 응원해요!
-            </h2>
-            <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
-                아이디어가 세상을 만나는 곳! 발명품 사진을 올려 아이디어를 알리고,<br class="hidden sm:inline"/> 
-                싹싹포인트로 멋진 발명품에 펀딩해 보세요.
-            </p>
-            
-            <div class="pt-2 flex flex-wrap justify-center gap-3">
-                <button onclick="openCreateModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-jua text-lg px-6 py-3 rounded-2xl shadow-lg shadow-emerald-200 transition-all flex items-center gap-2 active:scale-95">
-                    <span>✨ 내 발명품 등록하기</span>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- MAIN CONTENT AREA -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full" id="projectGridSection">
-        <!-- Author View Filter & Search Bar -->
-        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-6 bg-white p-4 rounded-3xl border border-slate-200/80 shadow-sm">
-            <!-- Author View Tabs -->
-            <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-2xl self-start md:self-auto">
-                <button onclick="filterAuthor('ALL')" id="authorBtnAll" class="author-btn active px-4 py-2 rounded-xl text-xs font-jua transition-all bg-white text-emerald-700 shadow-sm">
-                    🌐 전체 발명품 (모두)
-                </button>
-                <button onclick="filterAuthor('MINE')" id="authorBtnMine" class="author-btn px-4 py-2 rounded-xl text-xs font-jua transition-all text-slate-600 hover:text-slate-900">
-                    🙋 내가 올린 글
-                </button>
-                <button onclick="filterAuthor('OTHERS')" id="authorBtnOthers" class="author-btn px-4 py-2 rounded-xl text-xs font-jua transition-all text-slate-600 hover:text-slate-900">
-                    👥 다른 친구 글
-                </button>
-            </div>
-
-            <!-- Search Bar -->
-            <div class="relative w-full md:w-64">
-                <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="발명품 또는 작성자 검색..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-            </div>
-        </div>
-
-        <!-- Category Filters -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-8 scrollbar-none" id="categoryFilters">
-            <button onclick="filterCategory('ALL')" class="cat-btn active border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-emerald-500 text-white border-emerald-500 shadow-sm">
-                전체 카테고리
-            </button>
-            <button onclick="filterCategory('환경/지구')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
-                🌍 환경/지구
-            </button>
-            <button onclick="filterCategory('학교생활')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
-                🏫 학교생활
-            </button>
-            <button onclick="filterCategory('편리도구')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
-                💡 편리도구
-            </button>
-            <button onclick="filterCategory('로봇/IT')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
-                🤖 로봇/IT
-            </button>
-            <button onclick="filterCategory('재미/장난감')" class="cat-btn border px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all bg-white text-slate-600 border-slate-200 hover:border-emerald-300">
-                🎨 재미/장난감
-            </button>
-        </div>
-
-        <!-- Invention Grid -->
-        <div id="projectGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <!-- Dynamic Render -->
-        </div>
-
-        <!-- Empty State -->
-        <div id="emptyState" class="hidden text-center py-16 bg-white rounded-3xl border border-dashed border-slate-200 p-8 my-6">
-            <div class="text-5xl mb-3">🔍</div>
-            <h3 class="font-jua text-xl text-slate-700 mb-1">등록된 발명품이 없습니다</h3>
-            <p class="text-xs text-slate-400">새로운 첫 번째 발명품 아이디어를 올려보세요!</p>
-        </div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200/80 py-8 text-center text-xs text-slate-500">
-        <div class="max-w-7xl mx-auto px-4 space-y-2">
-            <p class="font-jua text-slate-700 text-sm">💡 꿈나무 발명 펀딩소 (Kids Invention Crowdfunding)</p>
-            <p>초등학교 발명 교육 및 크라우드 펀딩 체험용 모듈</p>
-        </div>
-    </footer>
-
-    <!-- MODALS -->
-    
-    <!-- 1. USER ENTRANCE MODAL -->
-    <div id="userModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-        <div class="bg-white w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 text-center space-y-6">
-            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner">
-                👋
-            </div>
-            <div>
-                <h3 class="font-jua text-3xl text-slate-800 mb-2">환영합니다!</h3>
-                <p class="text-xs text-slate-500">펀딩소에서 사용할 이름을 입력해주세요.</p>
-            </div>
-
-            <form onsubmit="handleUserSubmit(event)" class="space-y-4">
-                <div class="text-left">
-                    <label class="block text-xs font-bold text-slate-600 mb-1.5">이름 (닉네임)</label>
-                    <input type="text" id="userInputName" required placeholder="예: 은여울" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all font-semibold">
-                </div>
-
-                <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-jua text-lg py-3.5 rounded-2xl shadow-lg shadow-emerald-200 transition-all active:scale-95">
-                    🌱 입장하기 (100,000P 받기)
-                </button>
-            </form>
-        </div>
+      </form>
     </div>
+  </div>
 
-    <!-- 2. CREATE INVENTION MODAL -->
-    <div id="createModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 hidden overflow-y-auto">
-        <div class="bg-white w-full max-w-2xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 my-8">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
-                <div class="flex items-center gap-3">
-                    <span class="text-3xl">🚀</span>
-                    <div>
-                        <h3 class="font-jua text-2xl text-slate-800">새 발명품 등록하기</h3>
-                        <p class="text-xs text-slate-500">멋진 아이디어 사진과 설명을 올려 친구들에게 보여주세요.</p>
-                    </div>
-                </div>
-                <button onclick="closeCreateModal()" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-all">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <form onsubmit="handleInventionSubmit(event)" class="space-y-5">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="sm:col-span-2">
-                        <label class="block text-xs font-bold text-slate-600 mb-1.5">발명품 이름 *</label>
-                        <input type="text" id="inputTitle" required placeholder="예: 빗물 자동 우산 털이" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1.5">카테고리 *</label>
-                        <select id="inputCategory" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                            <option value="환경/지구">🌍 환경/지구</option>
-                            <option value="학교생활">🏫 학교생활</option>
-                            <option value="편리도구">💡 편리도구</option>
-                            <option value="로봇/IT">🤖 로봇/IT</option>
-                            <option value="재미/장난감">🎨 재미/장난감</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Image Upload ONLY -->
-                <div>
-                    <label class="block text-xs font-bold text-slate-600 mb-1.5">발명품 사진 업로드 *</label>
-                    <div class="relative border-2 border-dashed border-slate-200 hover:border-emerald-400 bg-slate-50 rounded-2xl p-4 text-center cursor-pointer transition-all">
-                        <input type="file" id="imageFileInput" accept="image/*" required onchange="handleImagePreview(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                        <div id="imagePreviewContainer" class="space-y-2">
-                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-emerald-500"></i>
-                            <p class="text-xs text-slate-600 font-bold">클릭하여 사진 파일(JPG, PNG)을 업로드하세요</p>
-                            <p class="text-[10px] text-slate-400">스마트폰 사진도 자동 최적화되어 빠르게 등록됩니다.</p>
-                        </div>
-                        <img id="imagePreview" class="hidden max-h-48 rounded-xl mx-auto shadow-md object-cover">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-slate-600 mb-1.5">이 발명품이 해결하는 문제와 설명 *</label>
-                    <textarea id="inputDescription" required rows="3" placeholder="어떤 불편함을 해결하기 위해 만들었나요? 원리와 특징을 적어주세요." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none"></textarea>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1.5">목표 펀딩 금액 (포인트) *</label>
-                        <div class="relative">
-                            <input type="number" id="inputGoal" min="10000" step="5000" value="30000" required class="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 font-bold text-emerald-700">
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">P</span>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1.5">펀딩 성공 시 보상 (약속)</label>
-                        <input type="text" id="inputReward" placeholder="예: 발명품 스티커 및 축하 카드 전달" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                    </div>
-                </div>
-
-                <div class="pt-2 flex gap-3">
-                    <button type="button" onclick="closeCreateModal()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-jua py-3.5 rounded-2xl transition-all">
-                        취소
-                    </button>
-                    <button type="submit" id="submitInventionBtn" class="w-2/3 bg-emerald-500 hover:bg-emerald-600 text-white font-jua text-xl py-3.5 rounded-2xl shadow-lg shadow-emerald-200 transition-all flex items-center justify-center gap-2">
-                        <span>✨ 발명품 등록하기</span>
-                    </button>
-                </div>
-            </form>
+  <!-- 새 발명품 등록 팝업 -->
+  <div id="postModal" class="modal-overlay hidden">
+    <div class="modal-box wide">
+      <h2>💡 내 발명품 등록하기</h2>
+      <p class="modal-sub">친구들에게 내 아이디어를 자랑해봐요!</p>
+      <form id="postForm">
+        <div class="field">
+          <label for="titleInput">🔧 발명품 이름</label>
+          <input type="text" id="titleInput" maxlength="30" placeholder="예) 자동으로 접히는 우산" required>
         </div>
-    </div>
-
-    <!-- 3. INVENTION DETAIL MODAL -->
-    <div id="detailModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 hidden overflow-y-auto">
-        <div class="bg-white w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl border border-slate-100 my-8 relative">
-            <div id="detailContent">
-                <!-- Dynamic render -->
-            </div>
+        <div class="field">
+          <label for="descInput">📝 발명품 설명</label>
+          <textarea id="descInput" rows="3" maxlength="300" placeholder="어떤 발명품인지, 어떻게 쓰는지 알려주세요" required></textarea>
         </div>
-    </div>
-
-    <!-- 4. ADMIN AUTH MODAL -->
-    <div id="adminAuthModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 hidden">
-        <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl border border-slate-100 text-center">
-            <div class="w-14 h-14 bg-slate-100 text-slate-800 rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner">
-                🔐
-            </div>
-            <h3 class="font-jua text-2xl text-slate-800 mb-1">관리자 인증</h3>
-            <p class="text-xs text-slate-500 mb-4">비밀번호를 입력하세요.</p>
-            
-            <form onsubmit="verifyAdminPassword(event)" class="space-y-4">
-                <input type="password" id="adminPasswordInput" placeholder="비밀번호 입력" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-center text-lg font-bold tracking-widest focus:outline-none focus:ring-2 focus:ring-slate-800">
-                <div class="flex gap-2">
-                    <button type="button" onclick="closeAdminAuthModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-jua py-2.5 rounded-xl transition-all">
-                        취소
-                    </button>
-                    <button type="submit" class="w-1/2 bg-slate-800 hover:bg-slate-900 text-white font-jua py-2.5 rounded-xl shadow-md transition-all">
-                        로그인
-                    </button>
-                </div>
-            </form>
+        <div class="field">
+          <label for="goalInput">🎯 펀딩 목표 (포인트)</label>
+          <input type="number" id="goalInput" min="1" max="1000000" placeholder="예) 50000" required>
         </div>
-    </div>
-
-    <!-- 5. ADMIN DASHBOARD MODAL -->
-    <div id="adminDashboardModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 hidden overflow-y-auto">
-        <div class="bg-white w-full max-w-5xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 my-8">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
-                <div class="flex items-center gap-3">
-                    <span class="text-3xl">⚙️</span>
-                    <div>
-                        <h3 class="font-jua text-2xl text-slate-800">관리자 대시보드</h3>
-                        <p class="text-xs text-slate-500">발명품 펀딩 목표 달성 여부를 공개 설정하고 불필요한 게시물을 관리 및 삭제합니다.</p>
-                    </div>
-                </div>
-                <button onclick="closeAdminDashboardModal()" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-all">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <div class="flex flex-wrap items-center justify-between gap-3 mb-4 bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
-                <span class="text-xs font-bold text-slate-600">⚡ 일괄 처리 기능</span>
-                <div class="flex items-center gap-2">
-                    <button onclick="setAllPublishResults(true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-jua text-xs px-3.5 py-2 rounded-xl shadow-sm transition-all flex items-center gap-1.5">
-                        <i class="fa-solid fa-bullhorn"></i> 전체 결과 공개하기
-                    </button>
-                    <button onclick="setAllPublishResults(false)" class="bg-slate-700 hover:bg-slate-800 text-white font-jua text-xs px-3.5 py-2 rounded-xl shadow-sm transition-all flex items-center gap-1.5">
-                        <i class="fa-solid fa-lock"></i> 전체 결과 비공개하기
-                    </button>
-                </div>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-sm">
-                    <thead>
-                        <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold">
-                            <th class="p-3.5 rounded-l-xl">발명품명</th>
-                            <th class="p-3.5">작성자</th>
-                            <th class="p-3.5">모인 포인트 / 목표</th>
-                            <th class="p-3.5">현재 달성률</th>
-                            <th class="p-3.5 text-center">결과 공개 상태</th>
-                            <th class="p-3.5 text-center">공개 설정</th>
-                            <th class="p-3.5 rounded-r-xl text-center">게시물 관리</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminProjectList" class="divide-y divide-slate-100">
-                        <!-- Dynamic render -->
-                    </tbody>
-                </table>
-            </div>
+        <div class="field">
+          <label for="perksInput">🎁 펀딩 참여자 혜택</label>
+          <textarea id="perksInput" rows="2" maxlength="200" placeholder="예) 완성되면 제일 먼저 선물로 드려요!" required></textarea>
         </div>
-    </div>
-
-    <!-- 6. EDIT INVENTION MODAL -->
-    <div id="editModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 hidden overflow-y-auto">
-        <div class="bg-white w-full max-w-2xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 my-8">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
-                <div class="flex items-center gap-3">
-                    <span class="text-3xl">✏️</span>
-                    <div>
-                        <h3 class="font-jua text-2xl text-slate-800">발명품 수정하기</h3>
-                        <p class="text-xs text-slate-500">등록한 내용이나 설명글을 수정할 수 있어요.</p>
-                    </div>
-                </div>
-                <button onclick="closeEditModal()" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-all">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <form onsubmit="handleEditSubmit(event)" class="space-y-5">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="sm:col-span-2">
-                        <label class="block text-xs font-bold text-slate-600 mb-1.5">발명품 이름 *</label>
-                        <input type="text" id="editTitle" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1.5">카테고리 *</label>
-                        <select id="editCategory" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                            <option value="환경/지구">🌍 환경/지구</option>
-                            <option value="학교생활">🏫 학교생활</option>
-                            <option value="편리도구">💡 편리도구</option>
-                            <option value="로봇/IT">🤖 로봇/IT</option>
-                            <option value="재미/장난감">🎨 재미/장난감</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-slate-600 mb-1.5">이 발명품이 해결하는 문제와 설명 *</label>
-                    <textarea id="editDescription" required rows="3" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none"></textarea>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1.5">목표 펀딩 금액 (포인트) *</label>
-                        <div class="relative">
-                            <input type="number" id="editGoal" min="10000" step="5000" required class="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 font-bold text-emerald-700">
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">P</span>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1.5">펀딩 성공 시 보상(약속)</label>
-                        <input type="text" id="editReward" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                    </div>
-                </div>
-
-                <div class="pt-2 flex gap-3">
-                    <button type="button" onclick="closeEditModal()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-jua py-3.5 rounded-2xl transition-all">
-                        취소
-                    </button>
-                    <button type="submit" class="w-2/3 bg-emerald-500 hover:bg-emerald-600 text-white font-jua text-xl py-3.5 rounded-2xl shadow-lg transition-all">
-                        💾 수정 내용 저장하기
-                    </button>
-                </div>
-            </form>
+        <div class="field">
+          <label for="imgInput">📷 발명품 사진 (선택)</label>
+          <input type="file" id="imgInput" accept="image/*">
+          <img id="imgPreview" class="img-preview" alt="미리보기">
         </div>
-    </div>
-
-    <!-- 7. DELETE CONFIRMATION MODAL -->
-    <div id="deleteConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 hidden">
-        <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl border border-slate-100 text-center">
-            <div class="w-14 h-14 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner">
-                🗑️
-            </div>
-            <h3 class="font-jua text-2xl text-slate-800 mb-1">발명품 삭제하기</h3>
-            <p class="text-xs text-slate-500 mb-5">정말로 이 발명품을 삭제하시겠습니까?<br/>삭제된 게시물은 복구할 수 없습니다.</p>
-            
-            <div class="flex gap-2">
-                <button type="button" onclick="closeDeleteModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-jua py-2.5 rounded-xl transition-all">
-                    취소
-                </button>
-                <button type="button" onclick="executeDeleteProject()" class="w-1/2 bg-red-500 hover:bg-red-600 text-white font-jua py-2.5 rounded-xl shadow-md transition-all">
-                    삭제하기
-                </button>
-            </div>
+        <div class="modal-actions">
+          <button type="button" id="postCancelBtn" class="btn-ghost">취소</button>
+          <button type="submit" class="btn-primary">✅ 등록하기</button>
         </div>
+      </form>
     </div>
+  </div>
 
-    <!-- 8. RANKING MODAL -->
-    <div id="rankingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 hidden overflow-y-auto">
-        <div class="bg-white w-full max-w-2xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 my-8">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
-                <div class="flex items-center gap-3">
-                    <span class="text-3xl">🏆</span>
-                    <div>
-                        <h3 class="font-jua text-2xl text-slate-800">펀딩 금액 순위</h3>
-                        <p class="text-xs text-slate-500">관리자가 목표 달성 여부를 공개한 발명품들의 펀딩 순위입니다.</p>
-                    </div>
-                </div>
-                <button onclick="closeRankingModal()" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-all">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
+  <div id="toast"></div>
 
-            <div id="rankingList" class="space-y-3">
-                <!-- Dynamic Render -->
-            </div>
-        </div>
+  <header class="site-header">
+    <div class="logo">
+      <span class="sprout">🌱</span>
+      <div>
+        <h1>꿈나무 발명 펀딩소</h1>
+        <p>작은 아이디어가 자라나는 곳</p>
+      </div>
     </div>
-
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-800 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
-        <span id="toastIcon">🎉</span>
-        <span id="toastMsg" class="font-jua text-sm">알림 메시지</span>
+    <div class="user-pill" id="userPill">
+      <span>👋 <b id="userNameLabel">-</b>님</span>
+      <span>·</span>
+      <span class="coin">💰</span><b id="userPointsLabel">0</b>P
     </div>
+  </header>
 
-    <!-- REAL-TIME CLOUD DATA SYNC SCRIPT -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  <div class="intro">
+    <h2>너의 멋진 발명 아이디어에 친구들의 힘을 모아보세요 🚀</h2>
+    <p>발명품을 등록하고, 다른 친구들의 발명품엔 포인트로 펀딩해줘요. 펀딩이 쌓일수록 나무가 무럭무럭 자라나요!</p>
+  </div>
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kids-invent-class-app';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "AIzaSyDemoKeyOnlyForDevelopment",
-            authDomain: "demo-app.firebaseapp.com",
-            projectId: "demo-app",
-            storageBucket: "demo-app.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:1234567890:web:abcdef123456"
-        };
+  <main>
+    <div id="board" class="board-grid">
+      <div class="empty-state">🌰 게시판을 불러오는 중이에요...</div>
+    </div>
+  </main>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+  <button class="fab" id="newPostBtn"><span class="plus">＋</span> 발명품 등록하기</button>
 
-        let dbUser = null;
-        let currentUser = null;
-        let isAdminLoggedIn = false;
-        let currentFilter = 'ALL';
-        let authorFilter = 'ALL';
-        let searchQuery = '';
-        let uploadedImageData = '';
-        let currentDetailProject = null;
-        let targetDeleteId = null;
-        let targetEditId = null;
-        let projects = [];
-        const ADMIN_PASSWORD = "0115";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  import {
+    getFirestore, collection, doc, setDoc, getDoc, addDoc,
+    onSnapshot, query, orderBy, runTransaction, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        const sampleProjects = [
-            {
-                id: 'sample_1',
-                title: '자동 분리수거 로봇 휴지통',
-                category: '로봇/IT',
-                description: '센서를 이용해 일반쓰레기와 플라스틱을 스스로 구분해서 버려주는 똑똑한 로봇 휴지통입니다. 재활용이 쉬워져요!',
-                goal: 50000,
-                raised: 12000,
-                author: '발명도사',
-                createdAt: '2023. 11. 01.',
-                timestamp: Date.now() - 100000,
-                imageUrl: 'https://placehold.co/600x400/0ea5e9/ffffff?text=Smart+Bin',
-                isSample: true,
-                isResultPublished: false,
-                reward: '감사 스티커 세트'
-            }
-        ];
+  const firebaseConfig = {
+    apiKey: "AIzaSyC-ZUUUpYAzHgpF6y2T5cKUNMp9EGiRCV4",
+    authDomain: "kids-invention-funding.firebaseapp.com",
+    projectId: "kids-invention-funding",
+    storageBucket: "kids-invention-funding.firebasestorage.app",
+    messagingSenderId: "118122608313",
+    appId: "1:118122608313:web:98060ef16d5cf5a8490d68"
+  };
 
-        window.openCreateModal = openCreateModal;
-        window.closeCreateModal = closeCreateModal;
-        window.openAdminAuthModal = openAdminAuthModal;
-        window.closeAdminAuthModal = closeAdminAuthModal;
-        window.openAdminDashboard = openAdminDashboard;
-        window.closeAdminDashboardModal = closeAdminDashboardModal;
-        window.openRankingModal = openRankingModal;
-        window.closeRankingModal = closeRankingModal;
-        window.openDetailModal = openDetailModal;
-        window.closeDetailModal = closeDetailModal;
-        window.openEditModal = openEditModal;
-        window.closeEditModal = closeEditModal;
-        window.openDeleteModal = openDeleteModal;
-        window.closeDeleteModal = closeDeleteModal;
-        window.filterCategory = filterCategory;
-        window.filterAuthor = filterAuthor;
-        window.handleSearch = handleSearch;
-        window.scrollToGrid = scrollToGrid;
-        window.verifyAdminPassword = verifyAdminPassword;
-        window.handleUserSubmit = handleUserSubmit;
-        window.handleInventionSubmit = handleInventionSubmit;
-        window.handleImagePreview = handleImagePreview;
-        window.handleEditSubmit = handleEditSubmit;
-        window.executeDeleteProject = executeDeleteProject;
-        window.setAllPublishResults = setAllPublishResults;
-        window.togglePublishResult = togglePublishResult;
-        window.deleteProjectFromAdmin = deleteProjectFromAdmin;
-        window.fundProject = fundProject;
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-        function showToast(msg, icon = '🎉') {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').textContent = msg;
-            document.getElementById('toastIcon').textContent = icon;
-            
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+  const START_POINTS = 100000;
+  const STORAGE_KEY = "kif_userId";
+
+  let currentUser = null; // {id, name, points}
+  let latestPosts = [];
+
+  // ---------- utility: toast ----------
+  let toastTimer = null;
+  function showToast(msg){
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> t.classList.remove("show"), 2200);
+  }
+
+  // ---------- header UI ----------
+  function updateHeaderUI(){
+    if(!currentUser) return;
+    document.getElementById("userNameLabel").textContent = currentUser.name;
+    document.getElementById("userPointsLabel").textContent = currentUser.points.toLocaleString("ko-KR");
+  }
+
+  // ---------- name modal ----------
+  const nameModal = document.getElementById("nameModal");
+  const nameForm = document.getElementById("nameForm");
+
+  nameForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const nameInput = document.getElementById("nameInput");
+    const name = nameInput.value.trim();
+    if(!name) return;
+    const submitBtn = nameForm.querySelector("button[type=submit]");
+    submitBtn.disabled = true;
+
+    try{
+      const newRef = doc(collection(db, "users"));
+      await setDoc(newRef, { name, points: START_POINTS, createdAt: serverTimestamp() });
+      localStorage.setItem(STORAGE_KEY, newRef.id);
+      currentUser = { id: newRef.id, name, points: START_POINTS };
+      nameModal.classList.add("hidden");
+      updateHeaderUI();
+      subscribeUser();
+      subscribePosts();
+      showToast(`${name}님, 환영해요! 100,000P 받았어요 🎉`);
+    }catch(err){
+      console.error(err);
+      showToast("입장에 실패했어요. 다시 시도해주세요!");
+      submitBtn.disabled = false;
+    }
+  });
+
+  async function initUser(){
+    const savedId = localStorage.getItem(STORAGE_KEY);
+    if(savedId){
+      try{
+        const snap = await getDoc(doc(db, "users", savedId));
+        if(snap.exists()){
+          const data = snap.data();
+          currentUser = { id: savedId, name: data.name, points: data.points };
+          nameModal.classList.add("hidden");
+          updateHeaderUI();
+          subscribeUser();
+          subscribePosts();
+          return;
         }
+      }catch(err){ console.error(err); }
+    }
+    nameModal.classList.remove("hidden");
+    document.getElementById("nameInput").focus();
+  }
 
-        function scrollToGrid() {
-            document.getElementById('projectGridSection').scrollIntoView({ behavior: 'smooth' });
+  function subscribeUser(){
+    onSnapshot(doc(db, "users", currentUser.id), (snap)=>{
+      if(!snap.exists()) return;
+      const data = snap.data();
+      currentUser.points = data.points;
+      currentUser.name = data.name;
+      updateHeaderUI();
+      renderBoard(); // refresh funding buttons (own-post checks, disabled states)
+    });
+  }
+
+  // ---------- post modal ----------
+  const postModal = document.getElementById("postModal");
+  const postForm = document.getElementById("postForm");
+  const newPostBtn = document.getElementById("newPostBtn");
+  const postCancelBtn = document.getElementById("postCancelBtn");
+  const imgInput = document.getElementById("imgInput");
+  const imgPreview = document.getElementById("imgPreview");
+  let pendingImageData = "";
+
+  newPostBtn.addEventListener("click", ()=>{
+    postModal.classList.remove("hidden");
+  });
+  postCancelBtn.addEventListener("click", ()=>{
+    postModal.classList.add("hidden");
+    postForm.reset();
+    pendingImageData = "";
+    imgPreview.style.display = "none";
+  });
+
+  imgInput.addEventListener("change", ()=>{
+    const file = imgInput.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const maxW = 640;
+        const scale = Math.min(1, maxW / img.width);
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        pendingImageData = canvas.toDataURL("image/jpeg", 0.72);
+        imgPreview.src = pendingImageData;
+        imgPreview.style.display = "block";
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  postForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const title = document.getElementById("titleInput").value.trim();
+    const description = document.getElementById("descInput").value.trim();
+    const goal = Number(document.getElementById("goalInput").value);
+    const perks = document.getElementById("perksInput").value.trim();
+    if(!title || !description || !perks || !goal || goal <= 0) return;
+
+    const submitBtn = postForm.querySelector("button[type=submit]");
+    submitBtn.disabled = true;
+    try{
+      await addDoc(collection(db, "posts"), {
+        authorId: currentUser.id,
+        authorName: currentUser.name,
+        title, description, perks,
+        goal, funded: 0,
+        imageData: pendingImageData || "",
+        createdAt: serverTimestamp()
+      });
+      postModal.classList.add("hidden");
+      postForm.reset();
+      pendingImageData = "";
+      imgPreview.style.display = "none";
+      showToast("발명품이 등록되었어요! 🌱");
+    }catch(err){
+      console.error(err);
+      showToast("등록에 실패했어요. 다시 시도해주세요!");
+    }finally{
+      submitBtn.disabled = false;
+    }
+  });
+
+  // ---------- posts feed ----------
+  function subscribePosts(){
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snap)=>{
+      latestPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderBoard();
+    });
+  }
+
+  function growthStage(percent){
+    if(percent >= 100) return { emoji:"🎉", label:"펀딩 성공! 다 자랐어요" };
+    if(percent >= 75)  return { emoji:"🌳", label:"무럭무럭 자라는 중" };
+    if(percent >= 50)  return { emoji:"🌿", label:"쑥쑥 크는 중" };
+    if(percent >= 25)  return { emoji:"🌱", label:"새싹이 났어요" };
+    return { emoji:"🌰", label:"씨앗 단계" };
+  }
+
+  function renderBoard(){
+    const board = document.getElementById("board");
+    board.innerHTML = "";
+
+    if(latestPosts.length === 0){
+      const empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.textContent = "🌰 아직 등록된 발명품이 없어요! 첫 번째 발명가가 되어보세요";
+      board.appendChild(empty);
+      return;
+    }
+
+    latestPosts.forEach(post => board.appendChild(buildCard(post)));
+  }
+
+  function buildCard(post){
+    const goal = Number(post.goal) || 0;
+    const funded = Number(post.funded) || 0;
+    const percent = goal > 0 ? Math.min(100, Math.round((funded / goal) * 100)) : 0;
+    const stage = growthStage(percent);
+    const isOwner = currentUser && post.authorId === currentUser.id;
+    const isDone = percent >= 100;
+
+    const card = document.createElement("div");
+    card.className = "post-card" + (isDone ? " success" : "");
+
+    if(isDone){
+      const badge = document.createElement("div");
+      badge.className = "success-badge";
+      badge.textContent = "달성!";
+      card.appendChild(badge);
+    }
+
+    if(post.imageData){
+      const img = document.createElement("img");
+      img.className = "card-img";
+      img.src = post.imageData;
+      img.alt = post.title || "발명품 사진";
+      card.appendChild(img);
+    }else{
+      const ph = document.createElement("div");
+      ph.className = "card-img placeholder";
+      ph.textContent = "💡";
+      card.appendChild(ph);
+    }
+
+    const body = document.createElement("div");
+    body.className = "card-body";
+
+    const authorBadge = document.createElement("span");
+    authorBadge.className = "author-badge";
+    authorBadge.textContent = "만든 사람: " + (post.authorName || "이름없음");
+    body.appendChild(authorBadge);
+
+    const title = document.createElement("h3");
+    title.className = "card-title";
+    title.textContent = post.title || "";
+    body.appendChild(title);
+
+    const desc = document.createElement("p");
+    desc.className = "card-desc";
+    desc.textContent = post.description || "";
+    body.appendChild(desc);
+
+    const perksBox = document.createElement("div");
+    perksBox.className = "perks-box";
+    const perksLabel = document.createElement("b");
+    perksLabel.textContent = "🎁 펀딩 혜택 ";
+    perksBox.appendChild(perksLabel);
+    perksBox.appendChild(document.createElement("br"));
+    perksBox.appendChild(document.createTextNode(post.perks || ""));
+    body.appendChild(perksBox);
+
+    const growLabel = document.createElement("div");
+    growLabel.className = "grow-label";
+    growLabel.textContent = stage.label;
+    body.appendChild(growLabel);
+
+    const growRow = document.createElement("div");
+    growRow.className = "grow-row";
+    const growEmoji = document.createElement("span");
+    growEmoji.className = "grow-emoji";
+    growEmoji.textContent = stage.emoji;
+    const track = document.createElement("div");
+    track.className = "grow-track";
+    const fill = document.createElement("div");
+    fill.className = "grow-fill";
+    fill.style.width = percent + "%";
+    track.appendChild(fill);
+    growRow.appendChild(growEmoji);
+    growRow.appendChild(track);
+    body.appendChild(growRow);
+
+    const stats = document.createElement("div");
+    stats.className = "grow-stats";
+    const cur = document.createElement("span");
+    cur.textContent = funded.toLocaleString("ko-KR") + "P 모임 (" + percent + "%)";
+    const goalSpan = document.createElement("span");
+    goalSpan.className = "goal";
+    goalSpan.textContent = "목표 " + goal.toLocaleString("ko-KR") + "P";
+    stats.appendChild(cur);
+    stats.appendChild(goalSpan);
+    body.appendChild(stats);
+
+    const fundBox = document.createElement("div");
+    fundBox.className = "fund-box";
+
+    if(isOwner){
+      const note = document.createElement("div");
+      note.className = "own-note";
+      note.textContent = "🙂 내가 등록한 발명품이에요";
+      fundBox.appendChild(note);
+    }else if(isDone){
+      const note = document.createElement("div");
+      note.className = "own-note";
+      note.textContent = "🎉 이미 목표를 달성했어요!";
+      fundBox.appendChild(note);
+    }else{
+      const quickRow = document.createElement("div");
+      quickRow.className = "quick-row";
+      const fundInput = document.createElement("input");
+      fundInput.type = "number";
+      fundInput.className = "fund-input";
+      fundInput.min = "1";
+      fundInput.placeholder = "펀딩할 포인트";
+
+      [1000, 5000, 10000, 30000].forEach(amt => {
+        const qb = document.createElement("button");
+        qb.type = "button";
+        qb.className = "quick-btn";
+        qb.textContent = amt.toLocaleString("ko-KR") + "P";
+        qb.addEventListener("click", ()=>{ fundInput.value = amt; });
+        quickRow.appendChild(qb);
+      });
+      fundBox.appendChild(quickRow);
+
+      const inputRow = document.createElement("div");
+      inputRow.className = "fund-input-row";
+      inputRow.appendChild(fundInput);
+
+      const fundBtn = document.createElement("button");
+      fundBtn.type = "button";
+      fundBtn.className = "fund-btn";
+      fundBtn.textContent = "펀딩하기 🚀";
+      fundBtn.addEventListener("click", ()=> handleFund(post.id, fundInput, fundBtn));
+      inputRow.appendChild(fundBtn);
+
+      fundBox.appendChild(inputRow);
+    }
+
+    body.appendChild(fundBox);
+    card.appendChild(body);
+    return card;
+  }
+
+  async function handleFund(postId, fundInput, fundBtn){
+    const amount = parseInt(fundInput.value, 10);
+    if(!amount || amount <= 0){
+      showToast("포인트를 올바르게 입력해주세요!");
+      return;
+    }
+    fundBtn.disabled = true;
+    try{
+      let finalAmount = 0;
+      let failMsg = "";
+      await runTransaction(db, async (tx)=>{
+        const userRef = doc(db, "users", currentUser.id);
+        const postRef = doc(db, "posts", postId);
+        const userSnap = await tx.get(userRef);
+        const postSnap = await tx.get(postRef);
+        if(!userSnap.exists() || !postSnap.exists()){
+          failMsg = "정보를 찾을 수 없어요!";
+          return;
         }
+        const userData = userSnap.data();
+        const postData = postSnap.data();
 
-        function openCreateModal() {
-            if (!currentUser) {
-                document.getElementById('userModal').classList.remove('hidden');
-                return;
-            }
-            document.getElementById('createModal').classList.remove('hidden');
+        if(postData.authorId === currentUser.id){
+          failMsg = "내가 만든 발명품에는 펀딩할 수 없어요!";
+          return;
         }
-
-        function closeCreateModal() {
-            document.getElementById('createModal').classList.add('hidden');
-            document.getElementById('inputTitle').value = '';
-            document.getElementById('inputDescription').value = '';
-            document.getElementById('imageFileInput').value = '';
-            uploadedImageData = '';
-            document.getElementById('imagePreview').classList.add('hidden');
-            document.getElementById('imagePreviewContainer').classList.remove('hidden');
+        const remaining = Math.max((postData.goal || 0) - (postData.funded || 0), 0);
+        if(remaining <= 0){
+          failMsg = "이미 목표를 달성했어요! 🎉";
+          return;
         }
-
-        function openAdminAuthModal() {
-            if (isAdminLoggedIn) {
-                openAdminDashboard();
-            } else {
-                document.getElementById('adminAuthModal').classList.remove('hidden');
-            }
+        if((userData.points || 0) <= 0){
+          failMsg = "포인트가 부족해요!";
+          return;
         }
-
-        function closeAdminAuthModal() {
-            document.getElementById('adminAuthModal').classList.add('hidden');
-            document.getElementById('adminPasswordInput').value = '';
+        finalAmount = Math.min(amount, userData.points, remaining);
+        if(finalAmount <= 0){
+          failMsg = "포인트가 부족해요!";
+          return;
         }
+        tx.update(userRef, { points: userData.points - finalAmount });
+        tx.update(postRef, { funded: (postData.funded || 0) + finalAmount });
+      });
 
-        function openAdminDashboard() {
-            closeAdminAuthModal();
-            document.getElementById('adminDashboardModal').classList.remove('hidden');
-            renderAdminProjectList();
-        }
+      if(failMsg){
+        showToast(failMsg);
+      }else{
+        showToast(finalAmount.toLocaleString("ko-KR") + "P 펀딩 완료! 🌱");
+        fundInput.value = "";
+      }
+    }catch(err){
+      console.error(err);
+      showToast("펀딩 중 문제가 생겼어요. 다시 시도해주세요!");
+    }finally{
+      fundBtn.disabled = false;
+    }
+  }
 
-        function closeAdminDashboardModal() {
-            document.getElementById('adminDashboardModal').classList.add('hidden');
-        }
-        
-        function openRankingModal() {
-            document.getElementById('rankingModal').classList.remove('hidden');
-            renderRankingList();
-        }
-
-        function closeRankingModal() {
-            document.getElementById('rankingModal').classList.add('hidden');
-        }
-
-        function openDetailModal(id) {
-            currentDetailProject = projects.find(p => p.id === id);
-            if (!currentDetailProject) return;
-            renderDetailModal();
-            document.getElementById('detailModal').classList.remove('hidden');
-        }
-
-        function closeDetailModal() {
-            document.getElementById('detailModal').classList.add('hidden');
-            currentDetailProject = null;
-        }
-
-        function openEditModal(id) {
-            const project = projects.find(p => p.id === id);
-            if (!project) return;
-            targetEditId = id;
-            document.getElementById('editTitle').value = project.title;
-            document.getElementById('editCategory').value = project.category;
-            document.getElementById('editDescription').value = project.description;
-            document.getElementById('editGoal').value = project.goal;
-            document.getElementById('editReward').value = project.reward;
-            
-            closeDetailModal();
-            document.getElementById('editModal').classList.remove('hidden');
-        }
-
-        function closeEditModal() {
-            document.getElementById('editModal').classList.add('hidden');
-            targetEditId = null;
-        }
-
-        function openDeleteModal(id) {
-            targetDeleteId = id;
-            closeDetailModal();
-            document.getElementById('deleteConfirmModal').classList.remove('hidden');
-        }
-
-        function closeDeleteModal() {
-            document.getElementById('deleteConfirmModal').classList.add('hidden');
-            targetDeleteId = null;
-        }
-
-        function handleUserSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('userInputName').value.trim();
-            if(!name) return;
-            
-            currentUser = { name: name, points: 100000 };
-            
-            document.getElementById('userModal').classList.add('hidden');
-            document.getElementById('userBadge').classList.remove('hidden');
-            document.getElementById('userBadge').classList.add('flex');
-            document.getElementById('userNameDisplay').textContent = currentUser.name;
-            updatePointDisplay();
-            
-            showToast(`${currentUser.name}님 환영합니다! 100,000P 지급 완료!`, '🌱');
-            renderProjects();
-        }
-
-        function updatePointDisplay() {
-            if(currentUser) {
-                document.getElementById('userPointDisplay').textContent = currentUser.points.toLocaleString();
-            }
-        }
-
-        function handleImagePreview(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const img = new Image();
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-                    const MAX_SIZE = 800;
-
-                    if (width > height && width > MAX_SIZE) {
-                        height *= MAX_SIZE / width;
-                        width = MAX_SIZE;
-                    } else if (height > MAX_SIZE) {
-                        width *= MAX_SIZE / height;
-                        height = MAX_SIZE;
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    uploadedImageData = canvas.toDataURL('image/jpeg', 0.8);
-                    
-                    const preview = document.getElementById('imagePreview');
-                    preview.src = uploadedImageData;
-                    preview.classList.remove('hidden');
-                    document.getElementById('imagePreviewContainer').classList.add('hidden');
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        async function handleInventionSubmit(e) {
-            e.preventDefault();
-            if (!currentUser) {
-                openCreateModal(); 
-                return;
-            }
-
-            const title = document.getElementById('inputTitle').value.trim();
-            const category = document.getElementById('inputCategory').value;
-            const description = document.getElementById('inputDescription').value.trim();
-            const goal = parseInt(document.getElementById('inputGoal').value);
-            const reward = document.getElementById('inputReward').value.trim();
-
-            if (!uploadedImageData) {
-                showToast('⚠️ 발명품 사진을 등록해주세요.', '📸');
-                return;
-            }
-
-            const newProject = {
-                id: 'proj_' + Date.now(),
-                title,
-                category,
-                description,
-                goal,
-                raised: 0,
-                author: currentUser.name,
-                createdAt: new Date().toLocaleDateString('ko-KR'),
-                timestamp: Date.now(),
-                imageUrl: uploadedImageData,
-                isSample: false,
-                isResultPublished: false,
-                reward: reward || '감사 인사 카드'
-            };
-
-            try {
-                if (dbUser) {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', newProject.id);
-                    await setDoc(docRef, newProject);
-                } else {
-                    projects.unshift(newProject);
-                    renderProjects();
-                }
-
-                closeCreateModal();
-                showToast('🚀 새로운 발명품이 성공적으로 등록되었습니다!', '✨');
-            } catch (err) {
-                console.error("Firestore save error:", err);
-                showToast('⚠️ 등록 중 오류가 발생했습니다.', '❌');
-            }
-        }
-
-        async function handleEditSubmit(e) {
-            e.preventDefault();
-            if(!targetEditId) return;
-
-            const title = document.getElementById('editTitle').value.trim();
-            const category = document.getElementById('editCategory').value;
-            const description = document.getElementById('editDescription').value.trim();
-            const goal = parseInt(document.getElementById('editGoal').value);
-            const reward = document.getElementById('editReward').value.trim();
-
-            try {
-                if(dbUser) {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', targetEditId);
-                    await updateDoc(docRef, { title, category, description, goal, reward });
-                } else {
-                    const proj = projects.find(p => p.id === targetEditId);
-                    if(proj) {
-                        proj.title = title;
-                        proj.category = category;
-                        proj.description = description;
-                        proj.goal = goal;
-                        proj.reward = reward;
-                    }
-                    renderProjects();
-                }
-                closeEditModal();
-                showToast('수정이 완료되었습니다.', '✅');
-            } catch(err) {
-                console.error("Edit error:", err);
-                showToast('수정 중 오류가 발생했습니다.', '❌');
-            }
-        }
-
-        async function executeDeleteProject() {
-            if(!targetDeleteId) return;
-            try {
-                if(dbUser) {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', targetDeleteId);
-                    await deleteDoc(docRef);
-                } else {
-                    projects = projects.filter(p => p.id !== targetDeleteId);
-                    renderProjects();
-                    renderAdminProjectList();
-                }
-                closeDeleteModal();
-                showToast('게시물이 삭제되었습니다.', '🗑️');
-            } catch(err) {
-                console.error("Delete error:", err);
-                showToast('삭제 중 오류가 발생했습니다.', '❌');
-            }
-        }
-        
-        function deleteProjectFromAdmin(id) {
-            targetDeleteId = id;
-            document.getElementById('deleteConfirmModal').classList.remove('hidden');
-        }
-
-        async function fundProject(id) {
-            if (!currentUser) {
-                showToast('이름을 먼저 등록해주세요!', '⚠️');
-                document.getElementById('userModal').classList.remove('hidden');
-                return;
-            }
-
-            const fundAmount = 5000; 
-
-            if (currentUser.points < fundAmount) {
-                showToast('포인트가 부족합니다!', '😥');
-                return;
-            }
-
-            const project = projects.find(p => p.id === id);
-            if (!project) return;
-            
-            if (project.isSample) {
-                showToast('예시 게시물은 펀딩할 수 없습니다.', '💡');
-                return;
-            }
-
-            try {
-                if(dbUser) {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', id);
-                    await updateDoc(docRef, { raised: project.raised + fundAmount });
-                } else {
-                    project.raised += fundAmount;
-                    renderProjects();
-                }
-                
-                currentUser.points -= fundAmount;
-                updatePointDisplay();
-                
-                confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { y: 0.6 },
-                    colors: ['#34d399', '#fbbf24', '#60a5fa']
-                });
-
-                showToast(`멋진 아이디어에 ${fundAmount}P를 펀딩했습니다!`, '🎉');
-                closeDetailModal();
-                
-            } catch(err) {
-                console.error("Funding error", err);
-                showToast('펀딩 중 오류가 발생했습니다.', '❌');
-            }
-        }
-
-        function renderDetailModal() {
-            if(!currentDetailProject) return;
-            const p = currentDetailProject;
-            const isMyPost = currentUser && p.author === currentUser.name;
-            const isSuccess = p.raised >= p.goal;
-            const percent = Math.min(100, Math.round((p.raised / p.goal) * 100));
-
-            document.getElementById('detailContent').innerHTML = `
-                <div class="relative h-64 sm:h-80 bg-slate-100">
-                    <img src="${p.imageUrl}" class="w-full h-full object-cover">
-                    <button onclick="closeDetailModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-900/40 text-white flex items-center justify-center hover:bg-slate-900/60 transition-all backdrop-blur-sm">
-                        <i class="fa-solid fa-xmark text-lg"></i>
-                    </button>
-                    ${isMyPost ? `
-                        <div class="absolute top-4 left-4 flex gap-2">
-                            <button onclick="openEditModal('${p.id}')" class="bg-white/90 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm hover:bg-white transition-all flex items-center gap-1.5 backdrop-blur-sm">
-                                ✏️ 수정
-                            </button>
-                            <button onclick="openDeleteModal('${p.id}')" class="bg-red-500/90 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm hover:bg-red-500 transition-all flex items-center gap-1.5 backdrop-blur-sm">
-                                🗑️ 삭제
-                            </button>
-                        </div>
-                    ` : ''}
-                </div>
-                <div class="p-6 sm:p-8 space-y-6">
-                    <div>
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">
-                                ${p.category}
-                            </span>
-                        </div>
-                        <h2 class="font-jua text-3xl text-slate-800">${p.title}</h2>
-                        <p class="text-sm text-slate-500 mt-1">발명가: <span class="font-bold">${p.author}</span> | 등록일: ${p.createdAt}</p>
-                    </div>
-                    
-                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-                        <h4 class="font-bold text-slate-700 text-sm mb-2">어떤 발명품인가요?</h4>
-                        <p class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">${p.description}</p>
-                    </div>
-
-                    ${p.isResultPublished ? `
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-end">
-                                <div>
-                                    <p class="text-xs text-slate-500 mb-1">모인 포인트 / 목표</p>
-                                    <p class="font-jua text-2xl ${isSuccess ? 'text-emerald-600' : 'text-slate-800'}">
-                                        ${p.raised.toLocaleString()} <span class="text-lg text-slate-400">/ ${p.goal.toLocaleString()} P</span>
-                                    </p>
-                                </div>
-                                <span class="font-bold text-lg ${isSuccess ? 'text-emerald-600' : 'text-slate-500'}">${percent}%</span>
-                            </div>
-                            <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
-                                <div class="${isSuccess ? 'bg-emerald-500' : 'bg-amber-400'} h-full rounded-full transition-all duration-1000" style="width: ${percent}%"></div>
-                            </div>
-                            ${isSuccess ? `<p class="text-xs text-emerald-600 font-bold bg-emerald-50 p-2 rounded-xl text-center">🎉 목표 펀딩 금액을 달성했습니다!</p>` : ''}
-                        </div>
-                    ` : `
-                        <div class="bg-amber-50 rounded-2xl p-5 border border-amber-100 text-center space-y-3">
-                            <p class="text-sm font-bold text-amber-800">이 발명품에 펀딩하시겠습니까?</p>
-                            <p class="text-xs text-amber-600">펀딩 성공 시 보상: ${p.reward}</p>
-                            <button onclick="fundProject('${p.id}')" ${p.isSample ? 'disabled' : ''} class="w-full bg-amber-400 hover:bg-amber-500 text-amber-950 font-jua text-lg py-3 rounded-2xl shadow-sm hover:shadow transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                                🪙 5,000P 펀딩하기
-                            </button>
-                        </div>
-                    `}
-                </div>
-            `;
-        }
-
-        function filterCategory(category) {
-            currentFilter = category;
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('bg-emerald-500', 'text-white', 'border-emerald-500', 'shadow-sm');
-                btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
-            });
-            event.target.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-            event.target.classList.add('bg-emerald-500', 'text-white', 'border-emerald-500', 'shadow-sm');
-            renderProjects();
-        }
-
-        function filterAuthor(type) {
-            authorFilter = type;
-            document.querySelectorAll('.author-btn').forEach(btn => {
-                btn.classList.remove('bg-white', 'text-emerald-700', 'shadow-sm');
-                btn.classList.add('text-slate-600');
-            });
-
-            const activeBtnMap = { 'ALL': 'authorBtnAll', 'MINE': 'authorBtnMine', 'OTHERS': 'authorBtnOthers' };
-            const targetBtn = document.getElementById(activeBtnMap[type]);
-            if (targetBtn) {
-                targetBtn.classList.remove('text-slate-600');
-                targetBtn.classList.add('bg-white', 'text-emerald-700', 'shadow-sm');
-            }
-            renderProjects();
-        }
-
-        function handleSearch() {
-            searchQuery = document.getElementById('searchInput').value.toLowerCase();
-            renderProjects();
-        }
-
-        function renderProjects() {
-            const grid = document.getElementById('projectGrid');
-            const empty = document.getElementById('emptyState');
-
-            let filtered = projects.filter(p => {
-                const matchCat = currentFilter === 'ALL' || p.category === currentFilter;
-                const matchSearch = p.title.toLowerCase().includes(searchQuery) || p.description.toLowerCase().includes(searchQuery) || p.author.toLowerCase().includes(searchQuery);
-                
-                let matchAuthor = true;
-                if (authorFilter === 'MINE') {
-                    matchAuthor = currentUser && p.author === currentUser.name;
-                } else if (authorFilter === 'OTHERS') {
-                    matchAuthor = !currentUser || p.author !== currentUser.name;
-                }
-
-                return matchCat && matchSearch && matchAuthor;
-            });
-
-            if (filtered.length === 0) {
-                grid.innerHTML = '';
-                empty.classList.remove('hidden');
-                return;
-            }
-
-            empty.classList.add('hidden');
-
-            grid.innerHTML = filtered.map(p => {
-                const percent = Math.min(100, Math.round((p.raised / p.goal) * 100));
-                const isSuccess = p.raised >= p.goal;
-                const isMyPost = currentUser && p.author === currentUser.name;
-
-                return `
-                    <div onclick="openDetailModal('${p.id}')" class="bg-white rounded-3xl overflow-hidden border border-slate-200/80 hover:border-emerald-300 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col group relative">
-                        <div class="relative h-48 bg-slate-100 overflow-hidden">
-                            <img src="${p.imageUrl}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                                <span class="bg-white/90 backdrop-blur-md text-emerald-800 text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
-                                    ${p.category}
-                                </span>
-                                ${isMyPost ? `
-                                    <span class="bg-indigo-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
-                                        🙋 내가 올린 글
-                                    </span>
-                                ` : ''}
-                                ${p.isSample ? `
-                                    <span class="bg-amber-400/90 backdrop-blur-md text-slate-900 text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
-                                        💡 예시
-                                    </span>
-                                ` : ''}
-                            </div>
-                        </div>
-
-                        <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
-                            <div>
-                                <div class="text-xs text-slate-400 mb-1 flex items-center justify-between">
-                                    <span class="font-medium ${isMyPost ? 'text-indigo-600 font-bold' : 'text-slate-500'}">
-                                        👤 ${p.author}
-                                    </span>
-                                    <span>${p.createdAt || ''}</span>
-                                </div>
-                                <h3 class="font-jua text-xl text-slate-800 group-hover:text-emerald-600 transition-colors line-clamp-1">
-                                    ${p.title}
-                                </h3>
-                            </div>
-
-                            ${p.isResultPublished ? `
-                                <div class="space-y-1.5 pt-2 border-t border-slate-100">
-                                    <div class="flex justify-between items-center text-xs font-bold">
-                                        <span class="${isSuccess ? 'text-emerald-600' : 'text-amber-600'}">${percent}% 달성</span>
-                                        <span class="text-slate-400">${p.raised.toLocaleString()} P</span>
-                                    </div>
-                                    <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-                                        <div class="bg-emerald-500 h-full rounded-full" style="width: ${percent}%"></div>
-                                    </div>
-                                </div>
-                            ` : `
-                                <div class="pt-2 border-t border-slate-100 text-right">
-                                    <span class="text-xs font-jua text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
-                                        🌱 펀딩 참여 가능
-                                    </span>
-                                </div>
-                            `}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function verifyAdminPassword(e) {
-            e.preventDefault();
-            const input = document.getElementById('adminPasswordInput').value;
-            if (input === ADMIN_PASSWORD) {
-                isAdminLoggedIn = true;
-                openAdminDashboard();
-                showToast('관리자 로그인 성공', '🔐');
-            } else {
-                showToast('비밀번호가 틀렸습니다.', '❌');
-            }
-        }
-
-        function renderAdminProjectList() {
-            const tbody = document.getElementById('adminProjectList');
-            const targetProjects = projects.filter(p => !p.isSample);
-            
-            if(targetProjects.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center p-5 text-slate-500">등록된 학생 게시물이 없습니다.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = targetProjects.map(p => {
-                const percent = Math.min(100, Math.round((p.raised / p.goal) * 100));
-                return `
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="p-3.5 font-bold text-slate-800">${p.title}</td>
-                        <td class="p-3.5 text-slate-600">${p.author}</td>
-                        <td class="p-3.5 text-slate-600">${p.raised.toLocaleString()} / ${p.goal.toLocaleString()}</td>
-                        <td class="p-3.5 font-bold ${percent >= 100 ? 'text-emerald-600' : 'text-amber-600'}">${percent}%</td>
-                        <td class="p-3.5 text-center">
-                            <span class="px-2 py-1 text-[10px] font-bold rounded-full ${p.isResultPublished ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'}">
-                                ${p.isResultPublished ? '공개됨' : '비공개'}
-                            </span>
-                        </td>
-                        <td class="p-3.5 text-center">
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" class="sr-only peer" ${p.isResultPublished ? 'checked' : ''} onchange="togglePublishResult('${p.id}', this.checked)">
-                                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-                            </label>
-                        </td>
-                        <td class="p-3.5 text-center">
-                            <button onclick="deleteProjectFromAdmin('${p.id}')" class="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-xl text-xs font-bold transition-all">
-                                🗑️ 삭제
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        async function togglePublishResult(id, isPublished) {
-            try {
-                if(dbUser) {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', id);
-                    await updateDoc(docRef, { isResultPublished: isPublished });
-                } else {
-                    const proj = projects.find(p => p.id === id);
-                    if(proj) proj.isResultPublished = isPublished;
-                    renderAdminProjectList();
-                    renderProjects();
-                }
-            } catch(err) {
-                console.error("Toggle error:", err);
-            }
-        }
-
-        async function setAllPublishResults(status) {
-            const targetProjects = projects.filter(p => !p.isSample);
-            if(targetProjects.length === 0) return;
-
-            try {
-                if(dbUser) {
-                    const promises = targetProjects.map(p => {
-                        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'projects', p.id);
-                        return updateDoc(docRef, { isResultPublished: status });
-                    });
-                    await Promise.all(promises);
-                } else {
-                    targetProjects.forEach(p => p.isResultPublished = status);
-                    renderAdminProjectList();
-                    renderProjects();
-                }
-                showToast(`모든 발명품의 결과를 ${status ? '공개' : '비공개'} 처리했습니다.`, '✅');
-            } catch(err) {
-                console.error("Bulk update error:", err);
-                showToast('일괄 변경 중 오류가 발생했습니다.', '❌');
-            }
-        }
-
-        function renderRankingList() {
-            const container = document.getElementById('rankingList');
-            const published = projects.filter(p => !p.isSample && p.isResultPublished);
-            
-            if(published.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-10">
-                        <div class="text-4xl mb-3">🔒</div>
-                        <p class="text-slate-500 font-bold">아직 펀딩 결과가 공개되지 않았습니다.</p>
-                        <p class="text-xs text-slate-400 mt-1">관리자가 결과를 공개하면 순위를 확인할 수 있어요!</p>
-                    </div>
-                `;
-                return;
-            }
-
-            const sorted = [...published].sort((a, b) => b.raised - a.raised);
-            const medals = ['🥇', '🥈', '🥉'];
-
-            container.innerHTML = sorted.map((p, index) => {
-                const rankIcon = index < 3 ? medals[index] : `<span class="text-sm text-slate-400 font-bold bg-slate-100 w-6 h-6 flex items-center justify-center rounded-full">${index + 1}</span>`;
-                const isSuccess = p.raised >= p.goal;
-                
-                return `
-                    <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                        <div class="text-2xl w-8 text-center">${rankIcon}</div>
-                        <img src="${p.imageUrl}" class="w-12 h-12 rounded-xl object-cover border border-slate-200">
-                        <div class="flex-grow">
-                            <h4 class="font-bold text-slate-800 text-sm line-clamp-1">${p.title}</h4>
-                            <p class="text-xs text-slate-500">${p.author}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-jua text-emerald-600">${p.raised.toLocaleString()} P</p>
-                            <p class="text-[10px] ${isSuccess ? 'text-emerald-500 font-bold' : 'text-slate-400'}">
-                                ${isSuccess ? '목표달성 성공!' : '진행중'}
-                            </p>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        async function initRealtimeSync() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    const userCred = await signInWithCustomToken(auth, __initial_auth_token);
-                    dbUser = userCred.user;
-                } else {
-                    const userCred = await signInAnonymously(auth);
-                    dbUser = userCred.user;
-                }
-
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'projects');
-                onSnapshot(colRef, (snapshot) => {
-                    const fetched = [];
-                    snapshot.forEach((doc) => {
-                        fetched.push(doc.data());
-                    });
-
-                    fetched.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-
-                    if (fetched.length === 0) {
-                        projects = [...sampleProjects];
-                    } else {
-                        const sampleIds = sampleProjects.map(s => s.id);
-                        const nonSampleFetched = fetched.filter(p => !sampleIds.includes(p.id));
-                        projects = [...nonSampleFetched, ...sampleProjects];
-                    }
-                    renderProjects();
-                    if (!document.getElementById('adminDashboardModal').classList.contains('hidden')) {
-                        renderAdminProjectList();
-                    }
-                    if (!document.getElementById('rankingModal').classList.contains('hidden')) {
-                        renderRankingList();
-                    }
-                }, (error) => {
-                    console.error("Firestore snapshot listener error:", error);
-                });
-            } catch (err) {
-                console.error("Realtime auth sync error:", err);
-                projects = [...sampleProjects];
-                renderProjects();
-            }
-        }
-
-        window.onload = function() {
-            initRealtimeSync();
-        };
-    </script>
+  // ---------- start ----------
+  initUser();
+</script>
 </body>
 </html>
